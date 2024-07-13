@@ -307,59 +307,7 @@ likeMood = "like";
   showPost();
   */
   }
-let pluse = document.getElementById ("pluse");
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-app.js";
-import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-analytics.js";
-import { getFirestore, collection, addDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-firestore.js";
-
-// Your web app's Firebase configuration
-const firebaseConfig = {
-  apiKey: "AIzaSyCyuBGv-_k1Ewy_dgE_SKmZ4ySAHJjnKoE",
-  authDomain: "fusion-a107a.firebaseapp.com",
-  projectId: "fusion-a107a",
-  storageBucket: "fusion-a107a.appspot.com",
-  messagingSenderId: "152309033769",
-  appId: "1:152309033769:web:61fb67508c4de1ed136538",
-  measurementId: "G-LK3ZNQ7784"
-};
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
-const db = getFirestore(app);
-
-// Function to add a document to the "users" collection
-const addUserDocument = async () => {
-  try {
-    const docRef = await addDoc(collection(db, "users"), {
-      name: "John Doe",
-      email: "johndoe@example.com",
-      age: 30
-    });
-    console.log("Document written with ID: ", docRef.id);
-  } catch (e) {
-    console.error("Error adding document: ", e);
-  }
-};
-
-// Function to listen to the "users" collection
-const listenToUsersCollection = () => {
-  const unsubscribe = onSnapshot(collection(db, "users"), (snapshot) => {
-    snapshot.forEach((doc) => {
-      console.log(doc.id, " => ", doc.data());
-    });
-  }, (error) => {
-    console.error("Error listening to collection: ", error);
-  });
-
-  // Call unsubscribe() to stop listening to changes
-};
-
-// Call the functions to see them in action
-addUserDocument();
-listenToUsersCollection();
-let infoAlert = document.querySelector(".info-alert");
+  let infoAlert = document.querySelector(".info-alert");
 let alerte = document.getElementById("alertt");
 let pMoodWeb = document.querySelector(".pMoodWeb");
 let buttonMoodWeb = document.querySelector(".buttonMoodWeb");
@@ -681,78 +629,198 @@ window.onload = function() {
 
 n11();
 
-// search 
+let checkPassword = document.getElementById("checkPassword");
+let checkPasswordLog = document.getElementById("checkPasswordLog");
+let passwordSin = document.getElementById("passwordSin");
+let passwordLog = document.getElementById("passwordLog");
 
-
-
-
-/*let valuelange = "en";
-function trans() {
-  if (valuelange === "en") {
-    valuelange = "ar";
+checkPasswordLog.onclick = function() {
+  if (checkPasswordLog.checked) {
+    passwordLog.type = "text";
   } else {
-    valuelange = "en";
+    passwordLog.type = "password";
   }
-  console.log(valuelange);
 }
 
-*/
-// التأكد من أن دالة alertt موجودة أو تعريفها إذا لم تكن موجودة
-
-window.onerror = function(message, source, lineno, colno, error) {
-  // عرض رسالة تنبيه عند حدوث خطأ
-  alertt("):حدث خطأ، سوف يتم إعادة تحميل الموقع " + error, "red");
-
-  // تعيين حدث النقر على الزر .btn-info لإعادة تحميل الصفحة
-  var reloadButton = document.querySelector(".btn-info");
-  if (reloadButton) {
-    reloadButton.onclick = function() {
-      location.reload();
-    };
+checkPassword.onclick = function() {
+  if (checkPassword.checked) {
+    passwordSin.type = "text";
   } else {
-    // إذا لم يكن الزر موجودًا، إعادة تحميل الصفحة فورًا
-    location.reload();
+    passwordSin.type = "password";
   }
+}
+let sinLog = document.getElementById("sinLog");
+let logSin = document.getElementById("logSin");
+let log = document.querySelector(".log");
+let sin = document.querySelector(".sin");
+sinLog.onclick  = function () {
+  sin.style = `display:none;`
+  log.style = `display:flex;`
+}
+logSin.onclick  = function () {
+  log.style = `display:none;`
+  sin.style = `display:flex;`
+}
 
-  // إعادة false لمنع ظهور رسالة الخطأ الافتراضية
-  return false;
-};
+//[sinUpName,sinUpEmail,dateYearSin,dateMontheSin,dateDaySin,passwordSin]
+
+// sin  up 
+let sinUpBtn = document.getElementById("sinUpBtn");
+
+let sinUpEmail = document.getElementById("sinUpEmail");
+let sinUpName = document.getElementById("sinUpName");
+let dateYearSin = document.getElementById("dateYearSin");
+let dateMontheSin = document.getElementById("dateMontheSin");
+let dateDaySin = document.getElementById("dateDaySin");
+
+let users = JSON.parse(localStorage.getItem("usersv")) || [];
+function sinUp() {
+  if (
+    sinUpName.value.trim() !== "" &&
+    sinUpEmail.value.trim() !== "" &&
+    dateYearSin.value.trim() !== "" &&
+    dateMontheSin.value.trim() !== "" &&
+    dateDaySin.value.trim() !== "" &&
+    passwordSin.value.trim() !== ""
+  )
+  {
+    // الحصول على التاريخ الحالي
+    let dateSinUpAll = new Date();
+    let dateYear = dateSinUpAll.getFullYear();
+    let dateMonth = dateSinUpAll.getMonth() + 1; // الأشهر تبدأ من 0 لذلك نضيف 1
+    let dateDay = dateSinUpAll.getDate();
+
+    // حساب العمر
+    let inputYear = parseInt(dateYearSin.value);
+    let inputMonth = parseInt(dateMontheSin.value);
+    let inputDay = parseInt(dateDaySin.value);
+
+    let age = dateYear - inputYear;
+    if (dateMonth < inputMonth || (dateMonth === inputMonth && dateDay < inputDay)) {
+      age--;
+    }
+
+    // التحقق من العمر
+    if (age >= 10 && age <= 500) {
+      let foundUser = false;
+      for (var i = 0; i < users.length; i++) {
+        if (sinUpName.value.trim() === users[i].name  || sinUpEmail.value.trim() === users[i].phone) {
+          foundUser = true;
+          alertt("Sorry, this user already exists ","red")
+        }
+      }
+      if (foundUser == false) {
+              let user = {
+        name: sinUpName.value.trim(),
+        phone: sinUpEmail.value.trim(),
+        password: passwordSin.value.trim(),
+      }
+      users.push(user);
+
+      console.log(users)
+      localStorage.setItem("usersv", JSON.stringify(users));
+      nameInput = sinUpName.value.trim();
+      clearInluts();
+      showApp();
+     alertt("An account has been created","#31FF4B")
+      }
+    } else {
+      alertt("sorry "+sinUpName.value.trim() +". You can't enter to fusion. Because you are young. ","red")
+    }
+  } else {
+    alertt("ااملا جميع الحقول","red");  }
+}
+function clearInluts() {
+  sinUpName.value = "" ;
+  sinUpEmail.value = "" ;
+  dateYearSin.value = "" ;
+  dateMontheSin.value = "" ; 
+  dateDaySin.value = "" ;
+  passwordSin.value = "";
+}
+function showApp() {
+  document.querySelector(".login").style = `display:none `;
+  document.querySelector(".navbar").style= `display:flex `;
+}
+let nameLog = document.getElementById("nameLog")
+function login() {
+  if (passwordLog.value.trim().toLocaleLowerCase() !== "" && nameLog.value.trim().toLocaleLowerCase() !== "") {
+    
+  
+ let userLogin = false;
+ let lantheUser ;
+ for (var i = 0; i < users.length; i++) {
+   if (passwordLog.value.trim().toLocaleLowerCase() === users[i].password.toLocaleLowerCase()  && nameLog.value.trim().toLocaleLowerCase() === users[i].phone.toLocaleLowerCase()) {
+     userLogin = true;
+     nameInput = users[i].name;
+   }
+   else if(passwordLog.value.trim().toLocaleLowerCase() !== users[i].password.toLocaleLowerCase()  && nameLog.value.trim().toLocaleLowerCase() 
+   !== users[i].phone.toLocaleLowerCase()){
+     alertt("The password and (email or phone number) are incorrect","red")
+   }
+   else if (nameLog.value.trim().toLocaleLowerCase() !==
+  users[i].phone.toLocaleLowerCase()) {
+     alertt("Invalid email or phone number","red")
+   }
+   else if(passwordLog.value.trim().toLocaleLowerCase() !==
+  users[i].phone.toLocaleLowerCase()){
+    alertt("Password error","red")
+   }
+ }
+ if (userLogin == true) {
+   alertt("You are logged in","#31FF4B")
+   showApp()
+ }
+ }
+  else if(passwordLog.value.trim().toLocaleLowerCase() === "" && nameLog.value.trim().toLocaleLowerCase() === "") {
+   alertt("Fill in the field (email or phone number) and password","red");
+ }
+ else if (nameLog.value.trim().toLocaleLowerCase() === "") {
+  alertt("Fill in the field (email or phone number)", "red");
+}
+else if (passwordLog.value.trim().toLocaleLowerCase() === "") {
+  alertt("Fill in the field password", "red");
+}
+}
 let logInbtn = document.getElementById("logInbtn")
-sinUpBtn.onclick = function () {
- sinUp()
+sinUpBtn.onclick = function() {
+  sinUp()
 }
 logInbtn.onclick = function() {
   login()
 }
-senahMood = false;
+let pluse = document.getElementById ("pluse");
+// Import the functions you need from the SDKs you need
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-app.js";
+import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-analytics.js";
+import { getFirestore, collection, addDoc, onSnapshot, getDocs, updateDoc, doc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-firestore.js";
 
-let sendComentBtn = document.getElementById('sendComentBtn');
-sendComentBtn.onclick = function() {
-  if (sendComent.value.trim() !== "") {
-    let dateComent = new Date();
-    let dateComentNow = dateComent.getFullYear() + "/" + (dateComent.getMonth() + 1) + "/" + dateComent.getDate();
-    let newComent = {
-      bodyComent: sendComent.value,
-      nameComent: nameInput,
-      datecoment: dateComentNow,
-    };
-    if (postIndex >= 0) {
-      if (!posts[postIndex].coments) {
-        posts[postIndex].coments = []; // Ensure the comments array exists
-      }
-      posts[postIndex].coments.push(newComent);
-      localStorage.setItem("postN", JSON.stringify(posts));
-      showComent();
-      sendComent.value = "";
-    } else {
-      console.log("No post selected for comment");
-    }
-  } else {
-    console.log("Comment is empty");
-  }
+// Your web app's Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyCyuBGv-_k1Ewy_dgE_SKmZ4ySAHJjnKoE",
+  authDomain: "fusion-a107a.firebaseapp.com",
+  projectId: "fusion-a107a",
+  storageBucket: "fusion-a107a.appspot.com",
+  messagingSenderId: "152309033769",
+  appId: "1:152309033769:web:61fb67508c4de1ed136538",
+  measurementId: "G-LK3ZNQ7784"
 };
-let uploadbtn = document.querySelector('.uploadbtn')
-uploadbtn.onclick = function() {
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+const db = getFirestore(app);
+
+// Variables (ensure these are correctly referenced in your HTML)
+let narInp = document.querySelector('#narInp');
+let nameInput = 'John Doe'; // Example, replace with actual user name
+let postIndex = -1;
+let sendComent = document.querySelector('#sendComent');
+let posts = []; // Initialize posts array
+
+let uploadbtn = document.querySelector('.uploadbtn');
+uploadbtn.onclick = async function() {
   if (narInp && narInp.value.trim() !== "") {
     let now = new Date();
     let date = now.getFullYear() + " / " + (now.getMonth() + 1) + " / " + now.getDate();
@@ -765,19 +833,46 @@ uploadbtn.onclick = function() {
       coments: [],
     };
 
-    db.collection("posts").add(newPost)
-      .then((docRef) => {
-        console.log("Document written with ID: ", docRef.id);
-        // تحديث المنشورات بعد إضافة منشور جديد
-        fetchPosts();
-      })
-      .catch((error) => {
-        console.error("Error adding document: ", error);
-      });
-
-    clearInput();
+    try {
+      const docRef = await addDoc(collection(db, "posts"), newPost);
+      console.log("Document written with ID: ", docRef.id);
+      fetchPosts(); // تحديث المنشورات بعد إضافة منشور جديد
+      clearInput();
+    } catch (error) {
+      console.error("Error adding document: ", error);
+    }
   } else {
-    alertt("Element with id 'narInp' not found or input value is empty.", "red");
+    alert("Element with id 'narInp' not found or input value is empty.");
+  }
+};
+
+let sendComentBtn = document.getElementById('sendComentBtn');
+sendComentBtn.onclick = function() {
+  if (sendComent.value.trim() !== "") {
+    let dateComent = new Date();
+    let dateComentNow = dateComent.getFullYear() + "/" + (dateComent.getMonth() + 1) + "/" + dateComent.getDate();
+    let newComent = {
+      bodyComent: sendComent.value,
+      nameComent: nameInput,
+      datecoment: dateComentNow,
+    };
+
+    if (postIndex >= 0 && posts[postIndex]) {
+      posts[postIndex].coments.push(newComent);
+      updateDoc(doc(db, "posts", posts[postIndex].id), { coments: posts[postIndex].coments })
+        .then(() => {
+          console.log("Comment added");
+          showComent();
+          sendComent.value = "";
+        })
+        .catch((error) => {
+          console.error("Error adding comment: ", error);
+        });
+    } else {
+      console.log("No post selected for comment");
+    }
+  } else {
+    console.log("Comment is empty");
   }
 };
 
@@ -789,15 +884,15 @@ function showComent() {
     let storedComents = posts[postIndex].coments;
 
     if (storedComents.length === 0) {
-      comentser.innerHTML = '<p class = "p-nan">لا يوجد تعليقات كون اول من يعلق</p>';
+      comentser.innerHTML = '<p class="p-nan">لا يوجد تعليقات كون اول من يعلق</p>';
     } else {
       for (let i = 0; i < storedComents.length; i++) {
         let comentHTML = `
           <div class="coment1">
             <div class="profile-coment">
-              <img src = "pro1.jpeg" alt="">
+              <img src="pro1.jpeg" alt="">
               <p class="pro-name-com">${storedComents[i].nameComent}</p>
-              <p class= "comet-date-info">${storedComents[i].datecoment}</p>
+              <p class="comet-date-info">${storedComents[i].datecoment}</p>
             </div>
             <div class="info-txt-com">
               <p>${storedComents[i].bodyComent}</p>
@@ -807,33 +902,29 @@ function showComent() {
       }
     }
   } else {
-    comentser.innerHTML = '<p class = "p-nan">لا يوجد تعليقات كون اول من يعلق</p>';
+    comentser.innerHTML = '<p class="p-nan">لا يوجد تعليقات كون اول من يعلق</p>';
   }
 }
 
-let comentsLength;
-// دالة لاسترجاع المنشورات ووضعها في المصفوفة
 function fetchPosts() {
-  db.collection("posts").get().then((querySnapshot) => {
-      posts = []; // نعيد تعيين المصفوفة لتفادي تكرار البيانات
+  getDocs(collection(db, "posts")).then((querySnapshot) => {
+    posts = [];
 
-      if (querySnapshot.empty) {
-        console.log("No posts found");
-      } else {
-        const docs = querySnapshot.docs;
-        for (let i = 0; i < docs.length; i++) {
-          let postData = docs[i].data();
-          postData.id = docs[i].id; // إضافة معرّف الوثيقة إلى البيانات
-          posts.push(postData);
-        }
+    if (querySnapshot.empty) {
+      console.log("No posts found");
+    } else {
+      const docs = querySnapshot.docs;
+      for (let i = 0; i < docs.length; i++) {
+        let postData = docs[i].data();
+        postData.id = docs[i].id;
+        posts.push(postData);
       }
+    }
 
-      // عرض المنشورات على واجهة المستخدم (اختياري)
-      showPost(posts);
-    })
-    .catch((error) => {
-      console.error("Error fetching documents: ", error);
-    });
+    showPost(posts);
+  }).catch((error) => {
+    console.error("Error fetching documents: ", error);
+  });
 }
 
 document.addEventListener('DOMContentLoaded', (event) => {
@@ -843,7 +934,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 function showPost(posts) {
   let postn = "";
   for (let i = posts.length - 1; i >= 0; i--) {
-    comentsLength = posts[i].coments ? posts[i].coments.length : 0;
+    let comentsLength = posts[i].coments ? posts[i].coments.length : 0;
     postn += `
       <div class="nasher post">
         <div class="head-post">
@@ -872,7 +963,7 @@ function showPost(posts) {
               <span id="spanSs" class="material-symbols-outlined spanS">comment</span>
             </button>
           </div>
-          <div class="upload like choke" onclick="">
+          <div class="upload like choke" onclick="likee(${i})">
             <button id="like" class="likee lookos chokee">
               <p id="lnn">${posts[i].likes}</p>
               <span id="spanSs" class="material-symbols-outlined spanS">thumb_up</span>
@@ -899,17 +990,13 @@ function com(index) {
 }
 
 function deletePost(postId) {
-  db.collection("posts").doc(postId).delete()
-    .then(() => {
-      console.log("Document successfully deleted!");
-      fetchPosts();
-    })
-    .catch((error) => {
-      console.error("Error removing document: ", error);
-    });
-}
-// Variables dark mood
-let searchMood = "opject";
+  deleteDoc(doc(db, "posts", postId)).then(() => {
+    console.log("Document successfully deleted!");
+    fetchPosts();
+  }).catch((error) => {
+    console.error("Error removing document: ", error);
+  });
+}let searchMood = "opject";
  let inputSs = document.getElementById("inputSs")
  function getSearchMood(id) {
   if (id == "byOpject") {
@@ -1138,5 +1225,39 @@ function openSearch() {
   document.getElementById("seach").style = `display:flex;`
   
 }
+
+
+/*let valuelange = "en";
+function trans() {
+  if (valuelange === "en") {
+    valuelange = "ar";
+  } else {
+    valuelange = "en";
+  }
+  console.log(valuelange);
+}
+
+*/
+// التأكد من أن دالة alertt موجودة أو تعريفها إذا لم تكن موجودة
+
+window.onerror = function(message, source, lineno, colno, error) {
+  // عرض رسالة تنبيه عند حدوث خطأ
+  alertt("):حدث خطأ، سوف يتم إعادة تحميل الموقع " + error, "red");
+
+  // تعيين حدث النقر على الزر .btn-info لإعادة تحميل الصفحة
+  var reloadButton = document.querySelector(".btn-info");
+  if (reloadButton) {
+    reloadButton.onclick = function() {
+      location.reload();
+    };
+  } else {
+    // إذا لم يكن الزر موجودًا، إعادة تحميل الصفحة فورًا
+    location.reload();
+  }
+
+  // إعادة false لمنع ظهور رسالة الخطأ الافتراضية
+  return false;
+};
+
 
 

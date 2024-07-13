@@ -1,5 +1,5 @@
 // Define cache names
-const CACHE_NAME = 'my-pwa-cache-v19';
+const CACHE_NAME = 'my-pwa-cache-v677';
 const ASSETS_TO_CACHE = [
   '/',
   '/main.js',

@@ -3,7 +3,7 @@
   "name": "Fuison",
   "display": "standalone",
   "background_color": "#333",
-  "theme_color": "#2977F6",
+  "theme_color": "rgba(0,0,0,0.5)",
   "orientation": "portrait",
   "scope": "/",
   "start_url": "/index.html",

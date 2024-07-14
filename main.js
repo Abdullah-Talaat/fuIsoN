@@ -811,7 +811,6 @@ const db = getFirestore(app);
 
 // Variables (ensure these are correctly referenced in your HTML)
 let narInp = document.querySelector('#narInp');
-let nameInput = 'John Doe'; // Example, replace with actual user name
 let postIndex = -1;
 let sendComent = document.querySelector('#sendComent');
 let posts = []; // Initialize posts array

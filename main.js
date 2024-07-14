@@ -792,9 +792,6 @@ logInbtn.onclick = function() {
 let pluse = document.getElementById ("pluse");
 // Import the functions you need from the SDKs you need
 // Import the functions you need from the SDKs you need
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-app.js";
-import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-analytics.js";
-import { getFirestore, collection, addDoc, onSnapshot, getDocs, updateDoc, doc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-firestore.js";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {

@@ -617,7 +617,7 @@ window.onload = function() {
     pi.innerHTML = "dark_mode";
   }
   
-if(users != []){
+if(users == []){
    bhu.style.display = "none";
 }
 else {

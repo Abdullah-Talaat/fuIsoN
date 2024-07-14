@@ -136,16 +136,7 @@ font - size: 30 px;background: #2977F6;
 logoMood = "span";
   }
 }
-let senahMood = false;
-let senah = document.querySelector(".senah")
-function senahFunction() {
-  if (!senahMood) {
-    senah.style.display = "none";
-  }
-  else{
-  senah.style.display = "flex";
-  }
-}
+
 // show and hidden 
 function show(name,heght,allm) {
   name.style = `
@@ -795,13 +786,13 @@ let pluse = document.getElementById ("pluse");
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyCyuBGv-_k1Ewy_dgE_SKmZ4ySAHJjnKoE",
-  authDomain: "fusion-a107a.firebaseapp.com",
-  projectId: "fusion-a107a",
-  storageBucket: "fusion-a107a.appspot.com",
-  messagingSenderId: "152309033769",
-  appId: "1:152309033769:web:61fb67508c4de1ed136538",
-  measurementId: "G-LK3ZNQ7784"
+  apiKey: "AIzaSyCbzLCbzeBB2tucfdhp89SAxM0EgEjHEFM",
+  authDomain: "fusionv-38d40.firebaseapp.com",
+  projectId: "fusionv-38d40",
+  storageBucket: "fusionv-38d40.appspot.com",
+  messagingSenderId: "355755612856",
+  appId: "1:355755612856:web:3e732ec78de861f27d724d",
+  measurementId: "G-E4W5LCCT9M"
 };
 
 // Initialize Firebase

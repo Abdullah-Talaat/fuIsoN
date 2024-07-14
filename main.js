@@ -601,7 +601,7 @@ function toggleMode() {
   // حفظ الحالة في Local Storage
   localStorage.setItem("isDarkMode", isDarkMode);
 }
-
+let bhu = document.querySelector(".bhu");
 // استعادة الحالة عند تحميل الصفحة
 window.onload = function() {
   n11()
@@ -616,6 +616,14 @@ window.onload = function() {
     pMoodWeb.innerHTML = "Dark Mood";
     pi.innerHTML = "dark_mode";
   }
+  
+if(users != []){
+   bhu.style.display = "none";
+}
+else {
+  bhu.style.display = "flex";
+}
+
 };
 
 n11();
@@ -779,6 +787,39 @@ sinUpBtn.onclick = function() {
 }
 logInbtn.onclick = function() {
   login()
+}
+let userPages = document.querySelector(".user-pages");
+let colsePages = document.querySelector(".colse-pages");
+function colseUserPages() {
+  bhu.style.display = "none"  ;
+}
+colsePages.onclick = function (){
+  colseUserPages();
+}
+userPages.addEventListener("onmouseup") = function () {
+  colseUserPages();
+}
+function showPages() {
+  let pagesN = ""; 
+  for(let u = 0; u < users.length;u++ ){
+    pagesN += `<div class="pages" onclick="loginWithPage(${i})">
+    <div class="image-page">
+                <img src="pro1.jpeg" alt="">
+             </div>
+             <div class = "info-page" >
+                <p class="p-name-page">${users[u].name}</p> 
+                <p class = "p-id-page">${users[u].phone}</p> </div>
+             </div>
+             </div>
+             `
+  }
+  document.querySelector(".pages-sh") = pagesN;
+  
+} 
+function loginWithPage(i) {
+  sinUpEmail.value = users[i].phone;
+  passwordSin.value = users[i].password;
+  login();
 }
 let pluse = document.getElementById ("pluse");
 // Import the functions you need from the SDKs you need

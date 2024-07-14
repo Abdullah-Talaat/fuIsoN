@@ -786,13 +786,13 @@ let pluse = document.getElementById ("pluse");
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyCbzLCbzeBB2tucfdhp89SAxM0EgEjHEFM",
-  authDomain: "fusionv-38d40.firebaseapp.com",
-  projectId: "fusionv-38d40",
-  storageBucket: "fusionv-38d40.appspot.com",
-  messagingSenderId: "355755612856",
-  appId: "1:355755612856:web:3e732ec78de861f27d724d",
-  measurementId: "G-E4W5LCCT9M"
+  apiKey: "AIzaSyBF9I3qzBgPqER2Rt5Qq6iX4a9sv4-hNOo",
+  authDomain: "fusiong-53ee2.firebaseapp.com",
+  projectId: "fusiong-53ee2",
+  storageBucket: "fusiong-53ee2.appspot.com",
+  messagingSenderId: "1074575984726",
+  appId: "1:1074575984726:web:556d1eef0592b87cab13f7",
+  measurementId: "G-NQ1Q7RY06D"
 };
 
 // Initialize Firebase

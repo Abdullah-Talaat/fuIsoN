@@ -617,13 +617,6 @@ window.onload = function() {
     pi.innerHTML = "dark_mode";
   }
   
-if(users == []){
-   bhu.style.display = "none";
-}
-else {
-  bhu.style.display = "flex";
-}
-
 };
 
 n11();
@@ -632,6 +625,7 @@ let checkPassword = document.getElementById("checkPassword");
 let checkPasswordLog = document.getElementById("checkPasswordLog");
 let passwordSin = document.getElementById("passwordSin");
 let passwordLog = document.getElementById("passwordLog");
+
 
 checkPasswordLog.onclick = function() {
   if (checkPasswordLog.checked) {
@@ -740,6 +734,7 @@ function clearInluts() {
 function showApp() {
   document.querySelector(".login").style = `display:none `;
   document.querySelector(".navbar").style= `display:flex `;
+  colseUserPages();
 }
 let nameLog = document.getElementById("nameLog")
 function login() {
@@ -788,6 +783,14 @@ sinUpBtn.onclick = function() {
 logInbtn.onclick = function() {
   login()
 }
+if(users == []){
+   bhu.style.display = "none";
+}
+else {
+  bhu.style.display = "flex";
+}
+
+
 let userPages = document.querySelector(".user-pages");
 let colsePages = document.querySelector(".colse-pages");
 function colseUserPages() {
@@ -796,30 +799,30 @@ function colseUserPages() {
 colsePages.onclick = function (){
   colseUserPages();
 }
-userPages.addEventListener("onmouseup") = function () {
-  colseUserPages();
-}
+
 function showPages() {
-  let pagesN = ""; 
-  for(let u = 0; u < users.length;u++ ){
-    pagesN += `<div class="pages" onclick="loginWithPage(${i})">
-    <div class="image-page">
-                <img src="pro1.jpeg" alt="">
-             </div>
-             <div class = "info-page" >
-                <p class="p-name-page">${users[u].name}</p> 
-                <p class = "p-id-page">${users[u].phone}</p> </div>
-             </div>
-             </div>
-             `
+  let pagesN = "";
+  for (let u = 0; u < users.length; u++) {
+    pagesN += `<div class="pages" onclick="loginWithPage(${u})">
+                 <div class="image-page">
+                   <img src="pro1.jpeg" alt="">
+                 </div>
+                 <div class="info-page">
+                   <p class="p-name-page">${users[u].name}</p> 
+                   <p class="p-id-page">${users[u].phone}</p> 
+                 </div>
+               </div>`;
   }
-  document.querySelector(".pages-sh") = pagesN;
-  
-} 
+  document.querySelector(".pages-sh").innerHTML = pagesN;
+}
+showPages()
 function loginWithPage(i) {
-  sinUpEmail.value = users[i].phone;
-  passwordSin.value = users[i].password;
+  nameLog.value = users[i].phone;
+  passwordLog.value = users[i].password;
   login();
+}
+if (users.length == 1) {
+  loginWithPage(0)
 }
 let pluse = document.getElementById ("pluse");
 // Import the functions you need from the SDKs you need

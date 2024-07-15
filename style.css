@@ -1613,6 +1613,6 @@ margin: 5px 0;
   display: none;
 }
 .pages-sh{
-  height: 500px;
+  min-height: 500px;
   overflow-y: auto;
 }

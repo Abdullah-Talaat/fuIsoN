@@ -783,11 +783,13 @@ sinUpBtn.onclick = function() {
 logInbtn.onclick = function() {
   login()
 }
-if(users.length == 0){
-   bhu.style.display = "none";
-}
-else {
-  bhu.style.display = "flex";
+function showBhu() {
+  if(users.length == 0){
+     bhu.style.display = "none"  ;
+  }
+  else {
+    bhu.style.display = "flex";
+  }
 }
 
 

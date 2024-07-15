@@ -12,6 +12,11 @@ window.addEventListener("load", function() {
   }, 0);
 })
 let rightS = document.querySelector(".right-s")
+let narInp = document.querySelector('#narInp');
+let coment = document.getElementById("coment");
+let boxComent = document.querySelector(".box-coment");
+
+let sendComent = document.querySelector('#sendComent');
 
 let menu = document.querySelector(".meno");
 let menuMood = "open";
@@ -33,7 +38,6 @@ function getMenuMood() {
   }
 }
 let infoAlertt = document.getElementById("infoAlertt");
-let coment = document.querySelector(".coment");
 function gg() {
   alerttte.style=`display :none;`
 }
@@ -341,7 +345,7 @@ boxComent.style = `
 background: #111;
 `;
 infoAlert.style = `background :#444;`;
-box.style = `background :#111;`;
+
 
 body.style = `background:#333;`;
 shoog.onclick = function () {
@@ -572,7 +576,9 @@ menu.style = `
 }
 
 
-box.style = `background :#fff;`; body.style = `background :#f1f1f1;`;infoAlert.style = `background :#f0f0f;`;
+ 
+body.style = `background :#f1f1f1;`;
+infoAlert.style = `background :#f0f0f;`;
 
 }
 
@@ -842,12 +848,8 @@ const analytics = getAnalytics(app);
 console.log("Analytics initialized:", analytics);
 const db = getFirestore(app);
 console.log("Firestore initialized:", db);
-
-let narInp = document.querySelector('#narInp');
 let postIndex = -1;
-let sendComent = document.querySelector('#sendComent');
-let posts = []; // Initialize posts array
-
+let posts = [];
 let uploadbtn = document.querySelector('.uploadbtn');
 uploadbtn.onclick = async function() {
   if (narInp && narInp.value.trim() !== "") {
@@ -1010,8 +1012,6 @@ function showPost(posts) {
         }
 
         function com(index) {
-            let coment = document.getElementById("coment");
-            let boxComent = document.querySelector(".box-coment");
             coment.style = `transform:translateY(0%)`;
             boxComent.style = `transform:translateX(0%)`;
             postIndex = index;

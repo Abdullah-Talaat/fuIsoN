@@ -783,7 +783,7 @@ sinUpBtn.onclick = function() {
 logInbtn.onclick = function() {
   login()
 }
-if(users == []){
+if(users.length == 0){
    bhu.style.display = "none";
 }
 else {

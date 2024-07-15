@@ -324,8 +324,6 @@ let leftS = document.querySelector(".left-s")
 
 let webMood = "dark";
 let darMood = "dark";
-let box = document.querySelector(".box");
-let boxComent = document.querySelector(".box-coment");
 let pi = document.getElementById("pi");
 function darkk() {
   leftS.style.background = "#333";
@@ -838,8 +836,12 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const app = firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
+const app = initializeApp(firebaseConfig);
+console.log("Firebase app initialized:", app);
+const analytics = getAnalytics(app);
+console.log("Analytics initialized:", analytics);
+const db = getFirestore(app);
+console.log("Firestore initialized:", db);
 
 let narInp = document.querySelector('#narInp');
 let postIndex = -1;

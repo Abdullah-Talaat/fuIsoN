@@ -826,13 +826,13 @@ if (users.length == 1) {
 }
 let pluse = document.getElementById ("pluse");
 const firebaseConfig = {
-  apiKey: "AIzaSyBF9I3qzBgPqER2Rt5Qq6iX4a9sv4-hNOo",
-  authDomain: "fusiong-53ee2.firebaseapp.com",
-  projectId: "fusiong-53ee2",
-  storageBucket: "fusiong-53ee2.appspot.com",
-  messagingSenderId: "1074575984726",
-  appId: "1:1074575984726:web:556d1eef0592b87cab13f7",
-  measurementId: "G-NQ1Q7RY06D"
+  apiKey: "AIzaSyAig-vIHwC2hXhmLgoXLciwk3J432M4Wzk",
+  authDomain: "fuisonf.firebaseapp.com",
+  projectId: "fuisonf",
+  storageBucket: "fuisonf.appspot.com",
+  messagingSenderId: "656503676696",
+  appId: "1:656503676696:web:3808a047636db61318486d",
+  measurementId: "G-SW6R4DZJVQ"
 };
 
 // Initialize Firebase
@@ -847,7 +847,6 @@ let narInp = document.querySelector('#narInp');
 let postIndex = -1;
 let sendComent = document.querySelector('#sendComent');
 let posts = []; // Initialize posts array
-let nameInput = "Your Name"; // يجب تعيين اسم المستخدم الحقيقي هنا
 
 let uploadbtn = document.querySelector('.uploadbtn');
 uploadbtn.onclick = async function() {
@@ -1289,6 +1288,3 @@ window.onerror = function(message, source, lineno, colno, error) {
   // إعادة false لمنع ظهور رسالة الخطأ الافتراضية
   return false;
 };
-
-
-

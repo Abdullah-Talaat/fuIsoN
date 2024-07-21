@@ -105,38 +105,31 @@ let nee = document.getElementById ("nee");
 let spanS = document.getElementById ("spanS");
 
 // logo
- function logo() {
-  if (logoMood == "span") {
-spanLogo.style = `font-weight: 350;
-color: #333;
+let h1logo = `
+  font-weight: 350;
+  color: #333;
   transition: 0.8s;
   font-size: 30px;
   background:#fff;
   `;
-hh.style = `background: #2977F6;
+  let spanLogoS = `
+  background: #2977F6;
   padding: 5px;
   border-radius: 7px;
   font-weight: 450;
   color: #f1f1f1;
-transition: 0.8s;
-font-size: 30px;
+  transition: 0.8s;
+  font-size: 30px;
 `;
+ function logo() {
+  if (logoMood == "span") {
+spanLogo.style = h1logo;
+hh.style = spanLogoS ;
 logoMood = "h1";
   }
   else {
-hh.style = `font - weight: 350;
-color: #333;
-  transition: 0.8s;
-  font-size: 30px;
-  margin: 3px;`;
-spanLogo.style = `background: #2977F6;
-  padding: 5px;
-  border-radius: 7px;
-  font-weight: 450;
-  color: # f1f1f1;
-transition: 0.8 s;
-font - size: 30 px;background: #2977F6;
-`;
+hh.style = h1Logo;
+spanLogo.style = spanLogoS;
 logoMood = "span";
   }
 }
@@ -176,73 +169,41 @@ function delet(r) {
   display:none;
   `
 }
-
 // nav 
  function nav(num1,num2,num3,num4,num5,num6,num7,num8) {
-  num1.style = `
-font-size: 30px;
-
-color: #777;
-  margin-left: 10px;
-  
-  border-bottom: 2.5px #2977F6 solid ;
-  color: #2977F6;
-  padding: 22.4px 30px;
+   let num;
+  for(let i = 0; i < 8 + 1 ;i++){
+    num = "num" + i;
+    if(i == 1){
+      num.style = `
+        font-size: 30px;
+        color: #777;
+        margin-left: 10px;
+        border-bottom: 2.5px #2977F6 solid ;
+        color: #2977F6;
+        padding: 22.4px 30px;
   `;
-  num2.style = `font-size: 30px;
-padding: 22.4px 30px;
-color: #777;
-  margin-left: 10px;`;
-  
-  num3.style = `font-size: 30px;
-padding: 22.4px 30px;
-color: #777;
-  margin-left: 10px;
-  `;
-  num4.style = `font-size: 30px;
-padding: 22.4px 30px;
-color: #777;
-  margin-left: 10px;
-  `;
-  num5.style = `
-font-size: 30px;
-
-color: #777;
-  margin-left: 10px;
-  
-  border-top: 2.5px #2977F6 solid ;
-  color: #2977F6;
-  padding: 30px 30px;
-  `;
-num6.style = `font-size: 30px;
-padding:30px 30px;
-color: #777;
-  margin-left: 10px;`;
-
-num7.style = `font-size: 30px;
-padding:30px 30px;
-color: #777;
-  margin-left: 10px;
-  `;
-num8.style = `font-size: 30px;
-padding: 30px 30px;
-color: #777;
-  margin-left: 10px;
-  `;
+    }
+    else {
+      num.style = `
+        font-size: 30px;
+        padding: 22.4px 30px;
+        color: #777;
+        margin-left: 10px;`;
+    }
+  }
 }
 function disNav(e1,e2,e3,e4) {
+  let e;
   e1.style = `
   margin-top :76.6px;
   `
-    e2.style = `
-  display:none;
-  `
-    e3.style = `
-  display:none;
-  `
-    e4.style = `
-  display:none;
-  `
+  for(let i = 1; i < 4 ; i++){
+    e = "e" + i;  
+    e.style = `
+      display:none;
+  `;
+  }
 }
 
 
@@ -283,26 +244,8 @@ showAlot.onclick = function () {
 
   }
 }
-// like
-let likeMood = "like";
 
-function likee(i) {
-  if (likeMood == "like") {
-posts[i].likes = ++likePosttt;
-    likeMood = "dis";
-let numfavet = i;
- }
-  else {
-   posts[i].likes = --likePosttt;
-likeMood = "like";
-}
-
-/*
-  localStorage.postN = JSON.stringify(posts);
-  showPost();
-  */
-  }
-  let infoAlert = document.querySelector(".info-alert");
+let infoAlert = document.querySelector(".info-alert");
 let alerte = document.getElementById("alertt");
 let pMoodWeb = document.querySelector(".pMoodWeb");
 let buttonMoodWeb = document.querySelector(".buttonMoodWeb");
@@ -311,7 +254,6 @@ let searchIcon = document.querySelector(".search-icon");
 let seach = document.getElementById("seach");
 let logoe = document.querySelector(".logo");
 let naveev = document.querySelector(".naveev");
-
 let pp = document.querySelectorAll(".pp");
 let containerq = document.querySelectorAll(".containerq");
 let infoo = document.querySelector(".infoo");
@@ -620,11 +562,18 @@ window.onload = function() {
     pMoodWeb.innerHTML = "Dark Mood";
     pi.innerHTML = "dark_mode";
   }
-  
+  fetchPosts();
 };
 
 n11();
-
+let lodingScreanLet = document.querySelector('#lA');
+function lodingSean(show) {
+  if(show && lodingScreanLet){
+    lodingScreanLet.style.display = "flex";
+  } else if (!show) {
+    lodingScreanLet.style.display = "none";
+  }
+}
 let checkPassword = document.getElementById("checkPassword");
 let checkPasswordLog = document.getElementById("checkPasswordLog");
 let passwordSin = document.getElementById("passwordSin");
@@ -698,7 +647,7 @@ function sinUp() {
     }
 
     // التحقق من العمر
-    if (age >= 10 && age <= 500) {
+    if (age >= 10 && age <= 500 && dateMontheSin <= 12 && dateDaySin <= 31) {
       let foundUser = false;
       for (var i = 0; i < users.length; i++) {
         if (sinUpName.value.trim() === users[i].name  || sinUpEmail.value.trim() === users[i].phone) {
@@ -708,9 +657,9 @@ function sinUp() {
       }
       if (foundUser == false) {
               let user = {
-        name: sinUpName.value.trim(),
-        phone: sinUpEmail.value.trim(),
-        password: passwordSin.value.trim(),
+                name: sinUpName.value.trim(),
+                phone: sinUpEmail.value.trim(),
+                password: passwordSin.value.trim(),
       }
       users.push(user);
 
@@ -719,13 +668,13 @@ function sinUp() {
       nameInput = sinUpName.value.trim();
       clearInluts();
       showApp();
-     alertt("An account has been created","#31FF4B")
+      alertt("An account has been created","#31FF4B")
       }
     } else {
       alertt("sorry "+sinUpName.value.trim() +". You can't enter to fusion. Because you are young. ","red")
     }
   } else {
-    alertt("ااملا جميع الحقول","red");  }
+    alertt("املا جميع الحقول","red");  }
 }
 function clearInluts() {
   sinUpName.value = "" ;
@@ -740,35 +689,33 @@ function showApp() {
   document.querySelector(".navbar").style= `display:flex `;
   colseUserPages();
 }
-let nameLog = document.getElementById("nameLog")
+let nameLog = document.getElementById("nameLog");
+
 function login() {
   if (passwordLog.value.trim().toLocaleLowerCase() !== "" && nameLog.value.trim().toLocaleLowerCase() !== "") {
-    
-  
- let userLogin = false;
- let lantheUser ;
- for (var i = 0; i < users.length; i++) {
-   if (passwordLog.value.trim().toLocaleLowerCase() === users[i].password.toLocaleLowerCase()  && nameLog.value.trim().toLocaleLowerCase() === users[i].phone.toLocaleLowerCase()) {
-     userLogin = true;
-     nameInput = users[i].name;
+   let userLogin = false;
+   for (var i = 0; i < users.length; i++) {
+     if (passwordLog.value.trim().toLocaleLowerCase() === users[i].password.toLocaleLowerCase()  && nameLog.value.trim().toLocaleLowerCase() === users[i].phone.toLocaleLowerCase()) {
+       userLogin = true;
+       nameInput = users[i].name;
+     }
+     else if(passwordLog.value.trim().toLocaleLowerCase() !== users[i].password.toLocaleLowerCase()  && nameLog.value.trim().toLocaleLowerCase() 
+     !== users[i].phone.toLocaleLowerCase()){
+       alertt("The password and (email or phone number) are incorrect","red")
+     }
+     else if (nameLog.value.trim().toLocaleLowerCase() !==
+    users[i].phone.toLocaleLowerCase()) {
+       alertt("Invalid email or phone number","red")
+     }
+     else if(passwordLog.value.trim().toLocaleLowerCase() !==
+    users[i].phone.toLocaleLowerCase()){
+      alertt("Password error","red")
+     }
    }
-   else if(passwordLog.value.trim().toLocaleLowerCase() !== users[i].password.toLocaleLowerCase()  && nameLog.value.trim().toLocaleLowerCase() 
-   !== users[i].phone.toLocaleLowerCase()){
-     alertt("The password and (email or phone number) are incorrect","red")
+   if (userLogin == true) {
+     
+     showApp()
    }
-   else if (nameLog.value.trim().toLocaleLowerCase() !==
-  users[i].phone.toLocaleLowerCase()) {
-     alertt("Invalid email or phone number","red")
-   }
-   else if(passwordLog.value.trim().toLocaleLowerCase() !==
-  users[i].phone.toLocaleLowerCase()){
-    alertt("Password error","red")
-   }
- }
- if (userLogin == true) {
-   alertt("You are logged in","#31FF4B")
-   showApp()
- }
  }
   else if(passwordLog.value.trim().toLocaleLowerCase() === "" && nameLog.value.trim().toLocaleLowerCase() === "") {
    alertt("Fill in the field (email or phone number) and password","red");
@@ -830,27 +777,38 @@ function loginWithPage(i) {
 if (users.length == 1) {
   loginWithPage(0)
 }
-let pluse = document.getElementById ("pluse");
+function logOut() {
+  document.querySelector(".login").style = `display:flex `;
+  document.querySelector(".navbar").style= `display:none `;
+  
+  clearInluts();
+  if (users.length < 1) {
+   showPages();
+ }
+}
+// تكوين Firebase
+
 const firebaseConfig = {
-  apiKey: "AIzaSyAig-vIHwC2hXhmLgoXLciwk3J432M4Wzk",
-  authDomain: "fuisonf.firebaseapp.com",
-  projectId: "fuisonf",
-  storageBucket: "fuisonf.appspot.com",
-  messagingSenderId: "656503676696",
-  appId: "1:656503676696:web:3808a047636db61318486d",
-  measurementId: "G-SW6R4DZJVQ"
+  apiKey: "AIzaSyA7NlfYNyIY5qIN_8hbsRpG5se3mR1OlNM",
+  authDomain: "fusion-8ad3b.firebaseapp.com",
+  projectId: "fusion-8ad3b",
+  storageBucket: "fusion-8ad3b.appspot.com",
+  messagingSenderId: "280592838890",
+  appId: "1:280592838890:web:25a8a6ec2029cb10936793",
+  measurementId: "G-HZC7E4M7SW"
 };
 
-// Initialize Firebase
+// تهيئة Firebase
 const app = initializeApp(firebaseConfig);
-console.log("Firebase app initialized:", app);
 const analytics = getAnalytics(app);
-console.log("Analytics initialized:", analytics);
 const db = getFirestore(app);
-console.log("Firestore initialized:", db);
+
+// متغيرات (تأكد من أن هذه العناصر موجودة في ملف HTML الخاص بك)
 let postIndex = -1;
-let posts = [];
+let posts = []; // تهيئة مصفوفة المنشورات
+
 let uploadbtn = document.querySelector('.uploadbtn');
+
 uploadbtn.onclick = async function() {
   if (narInp && narInp.value.trim() !== "") {
     let now = new Date();
@@ -862,23 +820,28 @@ uploadbtn.onclick = async function() {
       likes: 0,
       date: date,
       coments: [],
+      
     };
-
+     lodingSean(true);
     try {
-      const docRef = await firebase.firestore().collection("posts").add(newPost);
+      lodingSean(false);
+      const docRef = await addDoc(collection(db, "posts"), newPost);
       console.log("Document written with ID: ", docRef.id);
       fetchPosts(); // تحديث المنشورات بعد إضافة منشور جديد
       clearInput();
     } catch (error) {
-      alertt("Error adding document: "+error, "red");
+      lodingSean(false);
+      alertt("Error adding document: "+ error,"red");
     }
+
   } else {
-    alertt("Element with id 'narInp' not found or input value is empty.","red");
+    alert("Element with id 'narInp' not found or input value is empty.");
   }
 };
 
 let sendComentBtn = document.getElementById('sendComentBtn');
 sendComentBtn.onclick = function() {
+  
   if (sendComent.value.trim() !== "") {
     let dateComent = new Date();
     let dateComentNow = dateComent.getFullYear() + "/" + (dateComent.getMonth() + 1) + "/" + dateComent.getDate();
@@ -890,21 +853,28 @@ sendComentBtn.onclick = function() {
 
     if (postIndex >= 0 && posts[postIndex]) {
       posts[postIndex].coments.push(newComent);
-      firebase.firestore().doc("posts/" + posts[postIndex].id).update({ coments: posts[postIndex].coments })
+
+      lodingSean(true);
+      updateDoc(doc(db, "posts", posts[postIndex].id), { coments: posts[postIndex].coments })
         .then(() => {
+          lodingSean(false);
           console.log("Comment added");
           showComent();
           sendComent.value = "";
         })
         .catch((error) => {
-          console.error("Error adding comment: ", error);
+          lodingSean(false);
+          alertt("Error adding comment: "+ error,"red");
         });
     } else {
-      console.log("No post selected for comment");
+      alert("No post selected for comment");
     }
-  } else {
-    console.log("Comment is empty");
+  } 
+  else {
+    alert("Comment is empty");
   }
+    
+  
 };
 
 function showComent() {
@@ -919,16 +889,16 @@ function showComent() {
     } else {
       for (let i = 0; i < storedComents.length; i++) {
         let comentHTML = `
-                          <div class="coment1">
-                            <div class="profile-coment">
-                              <img src="pro1.jpeg" alt="">
-                              <p class="pro-name-com">${storedComents[i].nameComent}</p>
-                              <p class="comet-date-info">${storedComents[i].datecoment}</p>
-                            </div>
-                            <div class="info-txt-com">
-                              <p>${storedComents[i].bodyComent}</p>
-                            </div>
-                          </div>`;
+          <div class="coment1">
+            <div class="profile-coment">
+              <img src="pro1.jpeg" alt="">
+              <p class="pro-name-com">${storedComents[i].nameComent}</p>
+              <p class="comet-date-info">${storedComents[i].datecoment}</p>
+            </div>
+            <div class="info-txt-com">
+              <p>${storedComents[i].bodyComent}</p>
+            </div>
+          </div>`;
         comentser.innerHTML += comentHTML;
       }
     }
@@ -938,11 +908,13 @@ function showComent() {
 }
 
 function fetchPosts() {
-  firebase.firestore().collection("posts").get().then((querySnapshot) => {
+  lodingSean(true);
+  getDocs(collection(db, "posts")).then((querySnapshot) => {
+    lodingSean(false);
     posts = [];
 
     if (querySnapshot.empty) {
-      alertt("No posts found","red");
+      console.log("No posts found");
     } else {
       const docs = querySnapshot.docs;
       for (let i = 0; i < docs.length; i++) {
@@ -954,12 +926,15 @@ function fetchPosts() {
 
     showPost(posts);
   }).catch((error) => {
-    console.error("Error fetching documents: ", error);
+    lodingSean(false);
+    alertt("Error fetching documents: " + error,"red");
   });
 }
 
 document.addEventListener('DOMContentLoaded', (event) => {
+if (app && analytics && db) {
   fetchPosts();
+}
 });
 
 function showPost(posts) {
@@ -967,103 +942,128 @@ function showPost(posts) {
   for (let i = posts.length - 1; i >= 0; i--) {
     let comentsLength = posts[i].coments ? posts[i].coments.length : 0;
     postn += `
-                  <div class="nasher post">
-                    <div class="head-post">
-                      <div class="date-info">
-                        <p class="date">${posts[i].date}</p>
-                        <p class="material-symbols-outlined date-icon">calendar_month</p>
-                      </div>
-                      <div class="pro-post">
-                        <p>${posts[i].name}</p>
-                        <img class="pro-c" src="pro1.jpeg" alt="">
-                      </div>
-                    </div>
-                    <div class="post-info">
-                      <p>${posts[i].bodyPost}</p>
-                    </div>
-                    <div class="chosesec">
-                      <div class="upload like choke" onclick="deletePost('${posts[i].id}')">
-                        <button id="deleteee" class="likee deleteee chokee">
-                          <p>delete</p>
-                          <span id="spanS" class="material-symbols-outlined">delete</span>
-                        </button>
-                      </div>
-                      <div class="upload like choke<div class="upload like choke" onclick="com(${i})">
-                        <button id="like" class="likee lookos chokee">
-                          <p id="lnn">${comentsLength}</p>
-                          <span id="spanSs" class="material-symbols-outlined spanS">comment</span>
-                        </button>
-                      </div>
-                      <div class="upload like choke" onclick="likee(${i})">
-                        <button id="like" class="likee lookos chokee">
-                          <p id="lnn">${posts[i].likes}</p>
-                          <span id="spanSs" class="material-symbols-outlined spanS">thumb_up</span>
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                `;
-            }
-            document.getElementById("posts").innerHTML = postn;
-        }
+      <div class="nasher post">
+        <div class="head-post">
+          <div class="date-info">
+            <p class="date">${posts[i].date}</p>
+            <p class="material-symbols-outlined date-icon">calendar_month</p>
+          </div>
+          <div class="pro-post">
+            <p>${posts[i].name}</p>
+            <img class="pro-c" src="pro1.jpeg" alt="">
+          </div>
+        </div>
+        <div class="post-info">
+          <p>${posts[i].bodyPost}</p>
+        </div>
+        <div class="chosesec">
+          <div class="upload like choke" onclick="deletePost('${posts[i].id}')">
+            <button id="deleteee" class="likee deleteee chokee">
+              <p>delete</p>
+              <span id="spanS" class="material-symbols-outlined">delete</span>
+            </button>
+          </div>
+          <div class="upload like choke" onclick="com(${i})">
+            <button id="like" class="likee lookos chokee">
+              <p id="lnn">${comentsLength}</p>
+              <span id="spanSs" class="material-symbols-outlined spanS">comment</span>
+            </button>
+          </div>
+          <div class="upload like choke" onclick="likee(${i})">
+            <button id="like" class="likee lookos chokee">
+              <p id="lnn">${posts[i].likes}</p>
+              <span id="spanSs" class="material-symbols-outlined spanS">thumb_up</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+  /*
+    -deletePost✅
+    -com✅
+    -likee✅
+  */
+  document.getElementById("posts").innerHTML = postn;
+}
 
-        function clearInput() {
-            narInp.value = "";
-        }
+function clearInput() {
+  narInp.value = "";
+}
 
-        function com(index) {
-            coment.style = `transform:translateY(0%)`;
-            boxComent.style = `transform:translateX(0%)`;
-            postIndex = index;
-            showComent();
-        }
+function com(index) {
+  coment.style = `transform:translateY(0%)`;
+  boxComent.style = `transform:translateX(0%)`;
+  postIndex = index;
+  showComent();
+}
+let deletPassord = prompt("enter deletPassord") 
+function deletePost(postId) {
+  if(deletPassord == "fd-post"){
+    lodingSean(true);
+    deleteDoc(doc(db, "posts", postId)).then(() => {
+      lodingSean(false);
+      console.log("Document successfully deleted!");
+      fetchPosts();
+    }).catch((error) => {
+      lodingSean(false);
+      alertt("Error removing document: "+error,"red");
+    });
+  }
+  else {
+    alertt("deletPassord is not true")
+  }
+}
 
-        function deletePost(postId) {
-            firebase.firestore().doc("posts/" + postId).delete().then(() => {
-                console.log("Document successfully deleted!");
-                fetchPosts();
-            }).catch((error) => {
-                console.error("Error removing document: ", error);
-            });
-        }
+function likee(postIndex) {
+  let post = posts[postIndex];
+  let liked = post.liked || false; // إضافة خاصية لمعرفة ما إذا تم الإعجاب بالمنشور
 
-        function likee(index) {
-            posts[index].likes += 1;
-            firebase.firestore().doc("posts/" + posts[index].id).update({ likes: posts[index].likes })
-                .then(() => {
-                    console.log("Like added");
-                    fetchPosts();
-                })
-                .catch((error) => {
-                    console.error("Error adding like: ", error);
-                });
-        }
-                      let searchMood = "opject";
+  if (liked) {
+    post.likes--; // تقليل عدد الإعجابات
+    post.liked = false; // تحديث حالة الإعجاب
+  } else {
+    post.likes++; // زيادة عدد الإعجابات
+    post.liked = true; // تحديث حالة الإعجاب
+  }
+lodingSean(true);
+  // تحديث الوثيقة في Firebase
+  updateDoc(doc(db, "posts", post.id), { likes: post.likes, liked: post.liked })
+    .then(() => {
+      lodingSean(false);
+      console.log("Document successfully updated!");
+      showPost(posts); // تحديث العرض بعد التعديل
+    })
+    .catch((error) => {
+      lodingSean(false);
+      alertt("Error updating document: " + error,"red");
+    });
+}
+
+let searchMood = "opject";
 let inputSs = document.getElementById("inputSs");
-
 function getSearchMood(id) {
-  if (id === "byOpject") {
+  if (id == "byOpject") {
     searchMood = "opject";
-    inputSs.placeholder = "Search by object";
+    inputSs.placeholder = "Search by opject";
   } else {
     inputSs.placeholder = "Search by name";
     searchMood = "name";
   }
-  searcher(inputSs.value);
+  searchere(inputSs.value);
 }
 
-// search in header
-let searchInput = document.getElementById("search").value;
+// البحث في الهيدر
+let seachInput = document.getElementById("seach").value;
 
 function searcher(value) {
   let postn = "";
   let postne = "";
   let found = false;
-
   for (let i = posts.length - 1; i >= 0; i--) {
-    if (posts[i] && posts[i].name && posts[i].name.toLowerCase().includes(value.trim().toLowerCase())) {
+    if (posts[i].name.includes(value) || posts[i].bodyPost.includes(value)) {
       found = true;
-      postn += `
+      postn =+ `
         <div class="nasher post">
           <div class="head-post">
             <div class="date-info">
@@ -1079,7 +1079,7 @@ function searcher(value) {
             <p>${posts[i].bodyPost}</p>
           </div>
           <div class="chosesec">
-            <div class="upload like choke" onclick="deletePost(${i})">
+            <div class="upload like choke" onclick="deletePost('${posts[i].id}')">
               <button id="deleteee" class="likee deleteee chokee">
                 <p>delete</p>
                 <span id="spanS" class="material-symbols-outlined">delete</span>
@@ -1098,158 +1098,109 @@ function searcher(value) {
               </button>
             </div>
           </div>
-        </div>`;
-    } else if (posts[i] && posts[i].bodyPost && posts[i].bodyPost.toLowerCase().includes(value.trim().toLowerCase())) {
-      found = true;
-      postn += `
-        <div class="nasher post">
-          <div class="head-post">
-            <div class="date-info">
-              <p class="date">${posts[i].date}</p>
-              <p class="material-symbols-outlined date-icon">calendar_month</p>
-            </div>
-            <div class="pro-post">
-              <p>${posts[i].name}</p>
-              <img class="pro-c" src="pro1.jpeg" alt="">
-            </div>
-          </div>
-          <div class="post-info">
-            <p>${posts[i].bodyPost}</p>
-          </div>
-          <div class="chosesec">
-            <div class="upload like choke" onclick="deletePost(${i})">
-              <button id="deleteee" class="likee deleteee chokee">
-                <p>delete</p>
-                <span id="spanS" class="material-symbols-outlined">delete</span>
-              </button>
-            </div>
-            <div class="upload like choke" onclick="com(${i})">
-              <button id="like" class="likee lookos chokee">
-                <p id="lnn">${posts[i].coments ? posts[i].coments.length : 0}</p>
-                <span id="spanSs" class="material-symbols-outlined spanS">comment</span>
-              </button>
-            </div>
-            <div class="upload like choke" onclick="likee(${i})">
-              <button id="like" class="likee lookos chokee">
-                <p id="lnn">${posts[i].likes}</p>
-                <span id="spanSs" class="material-symbols-outlined spanS">thumb_up</span>
-              </button>
-            </div>
-          </div>
-        </div>`;
-    }
+        </div>
+      `;
+    } 
   }
 
   if (found) {
-    document.getElementById("posts").innerHTML = postn;
+    document.getElementById("posts").innerHTML = postn ;
   } else {
-    postne = `
-      <div class="error-searchd">
-        <p class="error-search">No results :(</p>
-      </div>
-    `;
-    document.getElementById("posts").innerHTML = postne;
+    document.getElementById("posts").innerHTML = '<p class="p-nan">لا توجد نتائج مطابقة للبحث</p>';
   }
 }
-
 function searchere(value) {
   let searchPost = "";
   let found = false;
 
   if (searchMood === "name") {
     for (let i = posts.length - 1; i >= 0; i--) {
-      if (posts[i] && posts[i].name && posts[i].name.toLowerCase().includes(value.trim().toLowerCase()) && value.trim().toLowerCase() !== "") {
+      if (posts[i] && posts[i].name && posts[i].name.toLocaleLowerCase().includes(value.trim().toLocaleLowerCase()) && value.trim().toLocaleLowerCase() !== "") {
         found = true;
         searchPost += `
-          <div class="nasher post">
+        <div class="nasher post">
+          <div class="head-post">
+            <div class="date-info">
+              <p class="date">${posts[i].date}</p>
+              <p class="material-symbols-outlined date-icon">calendar_month</p>
+            </div>
             <div class="pro-post">
               <p>${posts[i].name}</p>
               <img class="pro-c" src="pro1.jpeg" alt="">
             </div>
-            <div class="post-info">
-              <p>${posts[i].bodyPost}</p>
+          </div>
+          <div class="post-info">
+            <p>${posts[i].bodyPost}</p>
+          </div>
+          <div class="chosesec">
+            <div class="upload like choke" onclick="deletePost('${posts[i].id}')">
+              <button id="deleteee" class="likee deleteee chokee">
+                <p>delete</p>
+                <span id="spanS" class="material-symbols-outlined">delete</span>
+              </button>
             </div>
-            <div class="chosesec">
-              <div class="upload like choke" onclick="deletePost(${i})">
-                <button id="deleteee" class="likee deleteee chokee">
-                  <p>delete</p>
-                  <span id="spanS" class="material-symbols-outlined">delete</span>
-                </button>
-              </div>
-              <div class="upload like choke" onclick="likee(${i})">
-                <button id="like" class="likee lookos chokee">
-                  <p id="lnn">${posts[i].likes}</p>
-                  <span id="spanSs" class="material-symbols-outlined spanS">thumb_up</span>
-                </button>
-              </div>
-              <div class="upload like choke" onclick="com(${i})">
-                <button id="like" class="likee lookos chokee">
-                  <p id="lnn">${posts[i].coments ? posts[i].coments.length : 0}</p>
-                  <span id="spanSs" class="material-symbols-outlined spanS">comment</span>
-                </button>
-              </div>
+            <div class="upload like choke" onclick="com(${i})">
+              <button id="like" class="likee lookos chokee">
+                <p id="lnn">${posts[i].coments ? posts[i].coments.length : 0}</p>
+                <span id="spanSs" class="material-symbols-outlined spanS">comment</span>
+              </button>
             </div>
-          </div>`;
+            <div class="upload like choke" onclick="likee(${i})">
+              <button id="like" class="likee lookos chokee">
+                <p id="lnn">${posts[i].likes}</p>
+                <span id="spanSs" class="material-symbols-outlined spanS">thumb_up</span>
+              </button>
+            </div>
+          </div>
+        </div>`;
       }
-    }
-
-    if (found) {
-      document.getElementById("postsSsearch").innerHTML = searchPost;
-    } else {
-      searchPost = `
-        <div class="error-searchd">
-          <p class="error-search">No results :(</p>
-        </div>
-      `;
-      document.getElementById("postsSsearch").innerHTML = searchPost;
     }
   } else {
     for (let i = posts.length - 1; i >= 0; i--) {
-      if (posts[i] && posts[i].bodyPost && posts[i].bodyPost.toLowerCase().includes(value.trim().toLowerCase()) && value.trim().toLowerCase() !== "") {
+      if (posts[i] && posts[i].bodyPost && posts[i].bodyPost.toLocaleLowerCase().includes(value.trim().toLocaleLowerCase()) && value.trim().toLocaleLowerCase() !== "") {
         found = true;
-        searchPost += `
-          <div class="nasher post">
+        searchPost += `        <div class="nasher post">
+          <div class="head-post">
+            <div class="date-info">
+              <p class="date">${posts[i].date}</p>
+              <p class="material-symbols-outlined date-icon">calendar_month</p>
+            </div>
             <div class="pro-post">
               <p>${posts[i].name}</p>
               <img class="pro-c" src="pro1.jpeg" alt="">
             </div>
-            <div class="post-info">
-              <p>${posts[i].bodyPost}</p>
+          </div>
+          <div class="post-info">
+            <p>${posts[i].bodyPost}</p>
+          </div>
+          <div class="chosesec">
+            <div class="upload like choke" onclick="deletePost('${posts[i].id}')">
+              <button id="deleteee" class="likee deleteee chokee">
+                <p>delete</p>
+                <span id="spanS" class="material-symbols-outlined">delete</span>
+              </button>
             </div>
-            <div class="chosesec">
-              <div class="upload like choke" onclick="deletePost(${i})">
-                <button id="deleteee" class="likee deleteee chokee">
-                  <p>delete</p>
-                  <span id="spanS" class="material-symbols-outlined">delete</span>
-                </button>
-              </div>
-              <div class="upload like choke" onclick="likee(${i})">
-                <button id="like" class="likee lookos chokee">
-                  <p id="lnn">${posts[i].likes}</p>
-                  <span id="spanSs" class="material-symbols-outlined spanS">thumb_up</span>
-                </button>
-              </div>
-              <div class="upload like choke" onclick="com(${i})">
-                <button id="like" class="likee lookos chokee">
-                  <p id="lnn">${posts[i].coments ? posts[i].coments.length : 0}</p>
-                  <span id="spanSs" class="material-symbols-outlined spanS">comment</span>
-                </button>
-              </div>
+            <div class="upload like choke" onclick="com(${i})">
+              <button id="like" class="likee lookos chokee">
+                <p id="lnn">${posts[i].coments ? posts[i].coments.length : 0}</p>
+                <span id="spanSs" class="material-symbols-outlined spanS">comment</span>
+              </button>
             </div>
-          </div>`;
+            <div class="upload like choke" onclick="likee(${i})">
+              <button id="like" class="likee lookos chokee">
+                <p id="lnn">${posts[i].likes}</p>
+                <span id="spanSs" class="material-symbols-outlined spanS">thumb_up</span>
+              </button>
+            </div>
+          </div>
+        </div>`;
       }
     }
+  }
 
-    if (found) {
-      document.getElementBygetElementById("postsSsearch").innerHTML = searchPost; 
-    } else { 
-      searchPost = `<div class="error-searchd"> <p class="error-search">No results :(</p> </div>`;
-      document.getElementById("postsSsearch").innerHTML = searchPost; 
-    } 
-  } 
-}
-
-                
+  if (found) {
+    document.getElementById("postsSsearch").innerHTML = searchPost;
+  }}
 function openSearch() {
   document.querySelector(".search-icon").style = `display:none;`;
   document.getElementById("seach").style = `display:flex;`
@@ -1268,6 +1219,7 @@ function trans() {
 }
 
 */
+
 // التأكد من أن دالة alertt موجودة أو تعريفها إذا لم تكن موجودة
 
 window.onerror = function(message, source, lineno, colno, error) {

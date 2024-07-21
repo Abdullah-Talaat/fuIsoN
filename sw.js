@@ -1,5 +1,5 @@
 // Define cache names
-const CACHE_NAME = '2.00f';
+const CACHE_NAME = 'v2.00f';
 const ASSETS_TO_CACHE = [
   '/',
   '/main.js',

@@ -789,13 +789,13 @@ function logOut() {
 // تكوين Firebase
 
 const firebaseConfig = {
-  apiKey: "AIzaSyA7NlfYNyIY5qIN_8hbsRpG5se3mR1OlNM",
-  authDomain: "fusion-8ad3b.firebaseapp.com",
-  projectId: "fusion-8ad3b",
-  storageBucket: "fusion-8ad3b.appspot.com",
-  messagingSenderId: "280592838890",
-  appId: "1:280592838890:web:25a8a6ec2029cb10936793",
-  measurementId: "G-HZC7E4M7SW"
+  apiKey: "AIzaSyCDOvIHFFhMWwRXQniZDBjmU8_AzfBokBY",
+  authDomain: "fusion-23a2a.firebaseapp.com",
+  projectId: "fusion-23a2a",
+  storageBucket: "fusion-23a2a.appspot.com",
+  messagingSenderId: "1003336628920",
+  appId: "1:1003336628920:web:813ca2d2a6aef2c0f2d24d",
+  measurementId: "G-6Q6KY2ZQ4X"
 };
 
 // تهيئة Firebase

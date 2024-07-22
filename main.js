@@ -18,7 +18,7 @@ let boxComent = document.querySelector(".box-coment");
 
 let sendComent = document.querySelector('#sendComent');
 
-let menu = document.querySelector('.meno');
+let menu = document.querySelector(".meno");
 let menuMood = "open";
 function getMenuMood() {
   if (menuMood == "open") {
@@ -37,26 +37,29 @@ function getMenuMood() {
     menu.innerHTML = "menu";
   }
 }
-let infoalertt = document.getElementById("infoalertt");
 function gg() {
   alerttte.style=`display :none;`
 }
 function gggu() {
 coment.style=`display :none;`;
 }
-let alerttte = document.getElementById("alertt");
 
 window.addEventListener("mouseup",function (event) {
   gg();
 })
-function alertt(msg, color = "red") {
-  gggu()
-  alerttte.style = `display :flex;`
-  infoalertt.innerHTML = msg;
-  infoalertt.style = `color :${color};`;
+let alerttte = document.getElementById("alertt");
+let infoAlertt = document.querySelector('#infoAlertt');
 
+function alertt(msg, color) {
+  gggu(); // تأكد من أن gggu هي دالة معرفة مسبقًا
+  if (alerttte && infoAlertt) {
+    alerttte.style.display = 'flex';
+    infoAlertt.innerHTML = msg;
+    infoAlertt.style.color = color;
+  } else {
+    console.error("Elements with id 'alertt' or selector '#infoAlertt' not found.");
+  }
 }
-
 let  nameInput = "unknown";
 
 
@@ -244,7 +247,9 @@ showAlot.onclick = function () {
 
   }
 }
-let alertte = document.getElementById("alertt");
+
+let infoAlert = document.querySelector(".info-alert");
+let alerte = document.getElementById("alertt");
 let pMoodWeb = document.querySelector(".pMoodWeb");
 let buttonMoodWeb = document.querySelector(".buttonMoodWeb");
 let header = document.querySelector(".header");
@@ -284,7 +289,7 @@ menu.style = `
 boxComent.style = `
 background: #111;
 `;
-infoalertt.style = `background :#444;`;
+infoAlert.style = `background :#444;`;
 
 
 body.style = `background:#333;`;
@@ -518,7 +523,7 @@ menu.style = `
 
  
 body.style = `background :#f1f1f1;`;
-infoalertt.style = `background :#f0f0f;`;
+infoAlert.style = `background :#f0f0f;`;
 
 }
 
@@ -527,9 +532,7 @@ let isDarkMode = localStorage.getItem("isDarkMode") === "true";
 function toggleMode() {
   if (isDarkMode) {
     // استدعاء دالة الضوء
-    if(menu){
-      lightt();
-    }
+    lightt();
     isDarkMode = false;
     buttonMoodWeb.innerHTML = "dark_mode";
     pMoodWeb.innerHTML = "Dark Mood";
@@ -684,7 +687,7 @@ function clearInluts() {
   dateDaySin.value = "" ;
   passwordSin.value = "";
 }
-    function showApp() {
+function showApp() {
   document.querySelector(".login").style = `display:none `;
   document.querySelector(".navbar").style= `display:flex `;
   colseUserPages();
@@ -768,7 +771,7 @@ function showPages() {
   }
   document.querySelector(".pages-sh").innerHTML = pagesN;
 }
-showPages()
+
 function loginWithPage(i) {
   nameLog.value = users[i].phone;
   passwordLog.value = users[i].password;
@@ -782,118 +785,120 @@ function logOut() {
   document.querySelector(".navbar").style= `display:none `;
   
   clearInluts();
-  if (users.length < 1) {
    showPages();
- }
 }
-// Your web app's Firebase configuration
+// تكوين Firebase
+
 const firebaseConfig = {
-  apiKey: "AIzaSyC2oLuDwObmTkwi3wXRu3qTi9IfkLxMsjg",
-  authDomain: "fuison.firebaseapp.com",
-  projectId: "fuison",
-  storageBucket: "fuison.appspot.com",
-  messagingSenderId: "272997929295",
-  appId: "1:272997929295:web:bec659cdb8efa26192f53a",
-  measurementId: "G-6030NS4W6P"
+      apiKey: "AIzaSyA7NlfYNyIY5qIN_8hbsRpG5se3mR1OlNM",
+      authDomain: "fusion-8ad3b.firebaseapp.com",
+      projectId: "fusion-8ad3b",
+      storageBucket: "fusion-8ad3b.appspot.com",
+      messagingSenderId: "280592838890",
+      appId: "1:280592838890:web:25a8a6ec2029cb10936793",
+      measurementId: "G-HZC7E4M7SW"
 };
 
-// Initialize Firebase
-const app = firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore(app);
+    // تهيئة Firebase
+    firebase.initializeApp(firebaseConfig);
+    const analytics = firebase.analytics();
+    const db = firebase.firestore();
 
-document.addEventListener('DOMContentLoaded', (event) => {
-  if (app && db) {
-    fetchPosts();
-  }
-});
+// متغيرات (تأكد من أن هذه العناصر موجودة في ملف HTML الخاص بك)
+let postIndex = -1;
+let posts = []; // تهيئة مصفوفة المنشورات
 
 let uploadbtn = document.querySelector('.uploadbtn');
-let comentser = document.getElementById('comentser');
-let postsContainer = document.getElementById('posts');
-
-let postIndex = -1;
-let posts = [];
 
 uploadbtn.onclick = async function() {
-  if (narInp && narInp.value.trim() !== "") {
+  if (narInp && narInp.value.trim() !== "" && nameInput && nameInput.value.trim() !== "") {
     let now = new Date();
-    let date = `${now.getFullYear()} / ${now.getMonth() + 1} / ${now.getDate()}`;
+    let date = now.getFullYear() + " / " + (now.getMonth() + 1) + " / " + now.getDate();
+    console.log(date);
     let newPost = {
       bodyPost: narInp.value,
       name: nameInput.value,
       likes: 0,
       date: date,
-      coments: []
+      coments: [],
     };
-
     lodingSean(true);
     try {
-      const docRef = await db.collection("posts").add(newPost);
+      const docRef = await addDoc(collection(db, "posts"), newPost);
       console.log("Document written with ID: ", docRef.id);
       fetchPosts(); // تحديث المنشورات بعد إضافة منشور جديد
       clearInput();
     } catch (error) {
-      console.error("Error adding document: ", error);
+      alertt("Error adding document: " + error, "red");
     } finally {
       lodingSean(false);
     }
+
   } else {
-    alertt("Please enter a post.");
+    console.log("All fields must be provided and valid");
+    alertt("Element with id 'narInp' or 'nameInput' not found or input value is empty.","red");
   }
 };
-
 let sendComentBtn = document.getElementById('sendComentBtn');
-sendComentBtn.onclick = async function() {
+sendComentBtn.onclick = function() {
+  
   if (sendComent.value.trim() !== "") {
     let dateComent = new Date();
-    let dateComentNow = `${dateComent.getFullYear()}/${dateComent.getMonth() + 1}/${dateComent.getDate()}`;
+    let dateComentNow = dateComent.getFullYear() + "/" + (dateComent.getMonth() + 1) + "/" + dateComent.getDate();
     let newComent = {
       bodyComent: sendComent.value,
-      nameComent: nameInput.value,
-      datecoment: dateComentNow
+      nameComent: nameInput,
+      datecoment: dateComentNow,
     };
 
     if (postIndex >= 0 && posts[postIndex]) {
       posts[postIndex].coments.push(newComent);
+
       lodingSean(true);
-      try {
-        await db.collection("posts").doc(posts[postIndex].id).update({ coments: posts[postIndex].coments });
-        console.log("Comment added");
-        showComent();
-        sendComent.value = "";
-      } catch (error) {
-        console.error("Error adding comment: ", error);
-      } finally {
-        lodingSean(false);
-      }
+      updateDoc(doc(db, "posts", posts[postIndex].id), { coments: posts[postIndex].coments })
+        .then(() => {
+          lodingSean(false);
+          console.log("Comment added");
+          showComent();
+          sendComent.value = "";
+        })
+        .catch((error) => {
+          lodingSean(false);
+          alertt("Error adding comment: "+ error,"red");
+        });
     } else {
-      alertt("No post selected for comment","red");
+      alert("No post selected for comment");
     }
-  } else {
-    alertt("Comment is empty","red");
+  } 
+  else {
+    alert("Comment is empty");
   }
+    
+  
 };
 
 function showComent() {
+  let comentser = document.getElementById("comentser");
   comentser.innerHTML = "";
+
   if (postIndex >= 0 && posts[postIndex].coments) {
-    let storedComents = posts[postIndex].coments; 
+    let storedComents = posts[postIndex].coments;
+
     if (storedComents.length === 0) {
       comentser.innerHTML = '<p class="p-nan">لا يوجد تعليقات كون اول من يعلق</p>';
     } else {
       for (let i = 0; i < storedComents.length; i++) {
         let comentHTML = `
-                          <div class="coment1">
-                            <div class="profile-coment">
-                              <img src="pro1.jpeg" alt="">
-                              <p class="pro-name-com">${storedComents[i].nameComent}</p>
-                              <p class="comet-date-info">${storedComents[i].datecoment}</p>
-                            </div>
-                            <div class="info-txt-com">
-                              <p>${storedComents[i].bodyComent}</p>
-                            </div>
-                          </div>
-`;
+          <div class="coment1">
+            <div class="profile-coment">
+              <img src="pro1.jpeg" alt="">
+              <p class="pro-name-com">${storedComents[i].nameComent}</p>
+              <p class="comet-date-info">${storedComents[i].datecoment}</p>
+            </div>
+            <div class="info-txt-com">
+              <p>${storedComents[i].bodyComent}</p>
+            </div>
+          </div>`;
         comentser.innerHTML += comentHTML;
       }
     }
@@ -902,76 +907,87 @@ function showComent() {
   }
 }
 
-async function fetchPosts() {
-  lodingSean(true);
-  try {
-    let querySnapshot = await db.collection("posts").get();
-    posts = [];
-    if (querySnapshot.empty) {
-      console.log("No posts found");
-    } else {
-      querySnapshot.forEach(doc => {
-        let postData = doc.data();
-        postData.id = doc.id;
-        posts.push(postData);
+function fetchPosts() {
+      lodingSean(true);
+      db.collection("posts").get().then((querySnapshot) => {
+        lodingSean(false);
+        let posts = [];
+
+        if (querySnapshot.empty) {
+          console.log("No posts found");
+        } else {
+          const docs = querySnapshot.docs;
+          for (let i = 0; i < docs.length; i++) {
+            let postData = docs[i].data();
+            postData.id = docs[i].id;
+            posts.push(postData);
+          }
+        }
+
+        showPost(posts);
+      }).catch((error) => {
+        lodingSean(false);
+        alertt("Error fetching documents: " + error, "red");
       });
     }
-    showPost(posts);
-  } catch (error) {
-    console.error("Error fetching documents: ", error);
-  } finally {
-    lodingSean(false);
+document.addEventListener('DOMContentLoaded', (event) => {
+  if(db){
+  fetchPosts();
   }
-}
+});
 
 function showPost(posts) {
   let postn = "";
   for (let i = posts.length - 1; i >= 0; i--) {
     let comentsLength = posts[i].coments ? posts[i].coments.length : 0;
     postn += `
-                  <div class="nasher post">
-                    <div class="head-post">
-                      <div class="date-info">
-                        <p class="date">${posts[i].date}</p>
-                        <p class="material-symbols-outlined date-icon">calendar_month</p>
-                      </div>
-                      <div class="pro-post">
-                        <p>${posts[i].name}</p>
-                        <img class="pro-c" src="pro1.jpeg" alt="">
-                      </div>
-                    </div>
-                    <div class="post-info">
-                      <p>${posts[i].bodyPost}</p>
-                    </div>
-                    <div class="chosesec">
-                      <div class="upload like choke" onclick="deletePost('${posts[i].id}')">
-                        <button id="deleteee" class="likee deleteee chokee">
-                          <p>delete</p>
-                          <span id="spanS" class="material-symbols-outlined">delete</span>
-                        </button>
-                      </div>
-                      <div class="upload like choke" onclick="com(${i})">
-                        <button id="like" class="likee lookos chokee">
-                          <p id="lnn">${comentsLength}</p>
-                          <span id="spanSs" class="material-symbols-outlined spanS">comment</span>
-                        </button>
-                      </div>
-                      <div class="upload like choke" onclick="likee(${i})">
-                        <button id="like" class="likee lookos chokee">
-                          <p id="lnn">${posts[i].likes}</p>
-                          <span id="spanSs" class="material-symbols-outlined spanS">thumb_up</span>
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                `;
+      <div class="nasher post">
+        <div class="head-post">
+          <div class="date-info">
+            <p class="date">${posts[i].date}</p>
+            <p class="material-symbols-outlined date-icon">calendar_month</p>
+          </div>
+          <div class="pro-post">
+            <p>${posts[i].name}</p>
+            <img class="pro-c" src="pro1.jpeg" alt="">
+          </div>
+        </div>
+        <div class="post-info">
+          <p>${posts[i].bodyPost}</p>
+        </div>
+        <div class="chosesec">
+          <div class="upload like choke" onclick="deletePost('${posts[i].id}')">
+            <button id="deleteee" class="likee deleteee chokee">
+              <p>delete</p>
+              <span id="spanS" class="material-symbols-outlined">delete</span>
+            </button>
+          </div>
+          <div class="upload like choke" onclick="com(${i})">
+            <button id="like" class="likee lookos chokee">
+              <p id="lnn">${comentsLength}</p>
+              <span id="spanSs" class="material-symbols-outlined spanS">comment</span>
+            </button>
+          </div>
+          <div class="upload like choke" onclick="likee(${i})">
+            <button id="like" class="likee lookos chokee">
+              <p id="lnn">${posts[i].likes}</p>
+              <span id="spanSs" class="material-symbols-outlined spanS">thumb_up</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    `;
   }
-  postsContainer.innerHTML = postn;
+  /*
+    -deletePost✅
+    -com✅
+    -likee✅
+  */
+  document.getElementById("posts").innerHTML = postn;
 }
 
 function clearInput() {
   narInp.value = "";
-  nameInput.value = "";
 }
 
 function com(index) {
@@ -980,61 +996,73 @@ function com(index) {
   postIndex = index;
   showComent();
 }
-
-let deletPassord = prompt("enter delete password");
-
-async function deletePost(postId) {
-  if (deletPassord === "fd-post") {
+let deletPassord = prompt("enter deletPassord") 
+function deletePost(postId) {
+  if(deletPassord == "fd-post"){
     lodingSean(true);
-    try {
-      await db.collection("posts").doc(postId).delete();
+    deleteDoc(doc(db, "posts", postId)).then(() => {
+      lodingSean(false);
       console.log("Document successfully deleted!");
       fetchPosts();
-    } catch (error) {
-      console.error("Error removing document: ", error);
-    } finally {
+    }).catch((error) => {
       lodingSean(false);
-    }
-  } else {
-    alertt("Delete password is incorrect","red");
+      alertt("Error removing document: "+error,"red");
+    });
+  }
+  else {
+    alertt("deletPassord is not true")
   }
 }
-async function likee(index) {
-  if (index >= 0 && posts[index]) {
-    posts[index].likes += 1;
-    lodingSean(true);
-    try {
-      await db.collection("posts").doc(posts[index].id).update({ likes: posts[index].likes });
-      console.log("Likes updated");
-      showPost(posts); // تحديث عرض المنشورات بعد زيادة عدد الإعجابات
-    } catch (error) {
-      console.error("Error updating likes: ", error);
-    } finally {
-      lodingSean(false);
-    }
+
+function likee(postIndex) {
+  let post = posts[postIndex];
+  let liked = post.liked || false; // إضافة خاصية لمعرفة ما إذا تم الإعجاب بالمنشور
+
+  if (liked) {
+    post.likes--; // تقليل عدد الإعجابات
+    post.liked = false; // تحديث حالة الإعجاب
   } else {
-    alertt("No post selected for liking","red");
+    post.likes++; // زيادة عدد الإعجابات
+    post.liked = true; // تحديث حالة الإعجاب
   }
+lodingSean(true);
+  // تحديث الوثيقة في Firebase
+  updateDoc(doc(db, "posts", post.id), { likes: post.likes, liked: post.liked })
+    .then(() => {
+      lodingSean(false);
+      console.log("Document successfully updated!");
+      showPost(posts); // تحديث العرض بعد التعديل
+    })
+    .catch((error) => {
+      lodingSean(false);
+      alertt("Error updating document: " + error,"red");
+    });
 }
-let searchMood = "opject"; 
+
+let searchMood = "opject";
 let inputSs = document.getElementById("inputSs");
 function getSearchMood(id) {
   if (id == "byOpject") {
     searchMood = "opject";
     inputSs.placeholder = "Search by opject";
-   }
-    else { inputSs.placeholder = "Search by name";
-    searchMood = "name"; 
+  } else {
+    inputSs.placeholder = "Search by name";
+    searchMood = "name";
+  }
+  searchere(inputSs.value);
 }
- searchere(inputSs.value); 
-}
+
+// البحث في الهيدر
+let seachInput = document.getElementById("seach").value;
+
 function searcher(value) {
   let postn = "";
+  let postne = "";
   let found = false;
   for (let i = posts.length - 1; i >= 0; i--) {
     if (posts[i].name.includes(value) || posts[i].bodyPost.includes(value)) {
       found = true;
-      postn += `
+      postn =+ `
         <div class="nasher post">
           <div class="head-post">
             <div class="date-info">
@@ -1071,16 +1099,15 @@ function searcher(value) {
           </div>
         </div>
       `;
-    }
+    } 
   }
 
   if (found) {
-    document.getElementById("posts").innerHTML = postn;
+    document.getElementById("posts").innerHTML = postn ;
   } else {
     document.getElementById("posts").innerHTML = '<p class="p-nan">لا توجد نتائج مطابقة للبحث</p>';
   }
 }
-
 function searchere(value) {
   let searchPost = "";
   let found = false;
@@ -1131,8 +1158,7 @@ function searchere(value) {
     for (let i = posts.length - 1; i >= 0; i--) {
       if (posts[i] && posts[i].bodyPost && posts[i].bodyPost.toLocaleLowerCase().includes(value.trim().toLocaleLowerCase()) && value.trim().toLocaleLowerCase() !== "") {
         found = true;
-        searchPost += `
-        <div class="nasher post">
+        searchPost += `        <div class="nasher post">
           <div class="head-post">
             <div class="date-info">
               <p class="date">${posts[i].date}</p>
@@ -1172,11 +1198,8 @@ function searchere(value) {
   }
 
   if (found) {
-    document.getElementById("posts").innerHTML = searchPost;
-  } else {
-    document.getElementById("posts").innerHTML = '<p class="p-nan">لا توجد نتائج مطابقة للبحث</p>';
-  }
-}
+    document.getElementById("postsSsearch").innerHTML = searchPost;
+  }}
 function openSearch() {
   document.querySelector(".search-icon").style = `display:none;`;
   document.getElementById("seach").style = `display:flex;`

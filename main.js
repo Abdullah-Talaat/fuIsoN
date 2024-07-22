@@ -634,23 +634,23 @@ function sinUp() {
   )
   {
     // الحصول على التاريخ الحالي
-    let dateSinUpAll = new Date();
-    let dateYear = dateSinUpAll.getFullYear();
-    let dateMonth = dateSinUpAll.getMonth() + 1; // الأشهر تبدأ من 0 لذلك نضيف 1
-    let dateDay = dateSinUpAll.getDate();
+    let dateSignUpAll = new Date();
+let dateYear = dateSignUpAll.getFullYear();
+let dateMonth = dateSignUpAll.getMonth() + 1; // الأشهر تبدأ من 0 لذلك نضيف 1
+let dateDay = dateSignUpAll.getDate();
 
-    // حساب العمر
-    let inputYear = parseInt(dateYearSin.value);
-    let inputMonth = parseInt(dateMontheSin.value);
-    let inputDay = parseInt(dateDaySin.value);
+// حساب العمر
+let inputYear = parseInt(dateYearSin.value);
+let inputMonth = parseInt(dateMonthSin.value);
+let inputDay = parseInt(dateDaySin.value);
 
-    let age = dateYear - inputYear;
-    if (dateMonth < inputMonth || (dateMonth === inputMonth && dateDay < inputDay)) {
-      age--;
-    }
+let age = dateYear - inputYear;
+if (dateMonth < inputMonth || (dateMonth === inputMonth && dateDay < inputDay)) {
+  age--;
+}
 
-    // التحقق من العمر
-    if (age >= 10 && age <= 500 && dateMontheSin <= 12 && dateDaySin <= 31) {
+// التحقق من العمر
+if (age >= 10 && age <= 500 && inputMonth <= 12 && inputDay <= 31) {
       let foundUser = false;
       for (var i = 0; i < users.length; i++) {
         if (sinUpName.value.trim() === users[i].name  || sinUpEmail.value.trim() === users[i].phone) {

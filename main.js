@@ -62,8 +62,7 @@ function alertt(msg, color) {
 let  nameInput = "unknown";
 
 
-let proC = document.querySelector(".pro-c") ;
-proC.style.display = "block";
+
 const colorconst = "2977F6";
 // logo Variables
 let spanLogo = document.getElementById("span");

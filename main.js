@@ -822,7 +822,7 @@ uploadbtn.onclick = async function() {
     };
     lodingSean(true);
     try {
-      const docRef = await addDoc(collection(db, "posts"), newPost);
+      const docRef = await add(collection(db, "posts"), newPost);
       console.log("Document written with ID: ", docRef.id);
       fetchPosts(); // تحديث المنشورات بعد إضافة منشور جديد
       clearInput();
@@ -853,7 +853,10 @@ sendComentBtn.onclick = function() {
       posts[postIndex].coments.push(newComent);
 
       lodingSean(true);
-      updateDoc(doc(db, "posts", posts[postIndex].id), { coments: posts[postIndex].coments })
+      const docRef = db.collection('posts').doc(posts[postIndex].id);
+      docRef.update({
+        coments: posts[postIndex].coments
+      })
         .then(() => {
           lodingSean(false);
           console.log("Comment added");
@@ -996,7 +999,13 @@ let deletPassord = prompt("enter deletPassord")
 function deletePost(postId) {
   if(deletPassord == "fd-post"){
     lodingSean(true);
-    deleteDoc(doc(db, "posts", postId)).then(() => {
+    /*const docRef = db.collection('posts').doc(posts[postIndex].id);
+docRef.update({
+  coments: posts[postIndex].coments
+})*/
+    const docRef = db.collection('posts').doc(postId);
+    docRef.delete()
+   .then(() => {
       lodingSean(false);
       console.log("Document successfully deleted!");
       fetchPosts();
@@ -1023,7 +1032,11 @@ function likee(postIndex) {
   }
 lodingSean(true);
   // تحديث الوثيقة في Firebase
-  updateDoc(doc(db, "posts", post.id), { likes: post.likes, liked: post.liked })
+  const docRef = db.collection('posts').doc(post.id);
+  docRef.update({
+    likes: post.likes,
+    liked: post.liked
+  })
     .then(() => {
       lodingSean(false);
       console.log("Document successfully updated!");

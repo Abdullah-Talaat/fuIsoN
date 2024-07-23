@@ -638,19 +638,19 @@ function sinUp() {
 let dateYear = dateSignUpAll.getFullYear();
 let dateMonth = dateSignUpAll.getMonth() + 1; // الأشهر تبدأ من 0 لذلك نضيف 1
 let dateDay = dateSignUpAll.getDate();
-
+/*
+dateYearSin.value.trim() !== "" &&
+  dateMontheSin.value.trim() !== "" &&
+  dateDaySin.value.trim() !== "" &&
+*/
 // حساب العمر
-let inputYear = parseInt(dateYearSin.value);
-let inputMonth = parseInt(dateMonthSin.value);
-let inputDay = parseInt(dateDaySin.value);
-
 let age = dateYear - inputYear;
-if (dateMonth < inputMonth || (dateMonth === inputMonth && dateDay < inputDay)) {
+if (dateMonth < dateMontheSin.value || (dateMonth === dateMontheSin.value && dateDay < dateDaySin.value)) {
   age--;
 }
 
 // التحقق من العمر
-if (age >= 10 && age <= 500 && inputMonth <= 12 && inputDay <= 31) {
+if (age >= 10 && age <= 500 && dateMontheSin.value <= 12 && dateDaySin.value <= 31) {
       let foundUser = false;
       for (var i = 0; i < users.length; i++) {
         if (sinUpName.value.trim() === users[i].name  || sinUpEmail.value.trim() === users[i].phone) {

@@ -173,39 +173,71 @@ function delet(r) {
 }
 // nav 
  function nav(num1,num2,num3,num4,num5,num6,num7,num8) {
-   let num;
-  for(let i = 0; i < 8 + 1 ;i++){
-    num = "num" + i;
-    if(i == 1){
-      num.style = `
+num1.style = `
         font-size: 30px;
         color: #777;
         margin-left: 10px;
-        border-bottom: 2.5px #2977F6 solid ;
+        border-bottom: 2.5px #2977F6 solid;
         color: #2977F6;
         padding: 22.4px 30px;
-  `;
-    }
-    else {
-      num.style = `
+`;
+num2.style = `
         font-size: 30px;
         padding: 22.4px 30px;
         color: #777;
-        margin-left: 10px;`;
-    }
-  }
+        margin-left: 10px;
+`;
+num3.style = `
+        font-size: 30px;
+        padding: 22.4px 30px;
+        color: #777;
+        margin-left: 10px;
+`;
+num4.style = `
+        font-size: 30px;
+        padding: 22.4px 30px;
+        color: #777;
+        margin-left: 10px;
+`;
+num5.style = `
+        font-size: 30px;
+        padding: 22.4px 30px;
+        color: #777;
+        margin-left: 10px;
+`;
+num6.style = `
+        font-size: 30px;
+        padding: 22.4px 30px;
+        color: #777;
+        margin-left: 10px;
+`;
+num7.style = `
+        font-size: 30px;
+        padding: 22.4px 30px;
+        color: #777;
+        margin-left: 10px;
+`;
+num8.style = `
+        font-size: 30px;
+        padding: 22.4px 30px;
+        color: #777;
+        margin-left: 10px;
+`;
 }
+
 function disNav(e1,e2,e3,e4) {
-  let e;
   e1.style = `
-  margin-top :76.6px;
-  `
-  for(let i = 1; i < 4 ; i++){
-    e = "e" + i;  
-    e.style = `
-      display:none;
+    margin-top :76.6px;
   `;
-  }
+  e2.style = `
+    display :none;
+  `;
+  e3.style = `
+    display :none;
+  `;
+  e4.style = `
+    display :none;
+  `;
 }
 
 
@@ -909,27 +941,32 @@ function showComent() {
 }
 
 function fetchPosts() {
-  lodingSean(true); // تأكد من أن هذا التعريف صحيح
-  db.collection("posts").get()
-    .then((querySnapshot) => {
-      lodingSean(false);
-      if (querySnapshot.empty) {
-        console.log("No posts found");
-      } else {
-        querySnapshot.forEach((doc) => {
-          let postData = doc.data();
-          postData.id = doc.id;
-          posts.push(postData);
-        });
-      }
+            lodingSean(true);
 
-      showPost(posts); // تأكد من أن هذا التعريف صحيح
-    })
-    .catch((error) => {
-      lodingSean(false);
-      alertt("Error fetching documents: " + error, "red"); // تأكد من أن هذا التعريف صحيح
-    });
-}document.addEventListener('DOMContentLoaded', (event) => {
+            // إعادة تعيين مصفوفة المنشورات
+            posts = [];
+
+            db.collection("posts").get()
+                .then((querySnapshot) => {
+                    lodingSean(false);
+                    if (querySnapshot.empty) {
+                        console.log("No posts found");
+                    } else {
+                        querySnapshot.forEach((doc) => {
+                            let postData = doc.data();
+                            postData.id = doc.id;
+                            posts.push(postData);
+                        });
+                        showPost(posts);
+                    }
+                })
+                .catch((error) => {
+                    lodingSean(false);
+                    alertt("Error fetching documents: " + error, "red");
+                });
+        }
+
+document.addEventListener('DOMContentLoaded', (event) => {
   if(db){
   fetchPosts();
   }
@@ -937,7 +974,7 @@ function fetchPosts() {
 
 function showPost(posts) {
   let postn = "";
-  for (let i = posts.length - 1; i >= 0; i--) {
+  for (let i = 0; i < posts.length; i++){
     let comentsLength = posts[i].coments ? posts[i].coments.length : 0;
     postn += `
       <div class="nasher post">
@@ -995,28 +1032,24 @@ function com(index) {
   postIndex = index;
   showComent();
 }
-let deletPassord = prompt("enter deletPassord") 
 function deletePost(postId) {
-  if(deletPassord == "fd-post"){
-    lodingSean(true);
-    /*const docRef = db.collection('posts').doc(posts[postIndex].id);
-docRef.update({
-  coments: posts[postIndex].coments
-})*/
-    const docRef = db.collection('posts').doc(postId);
-    docRef.delete()
-   .then(() => {
-      lodingSean(false);
-      console.log("Document successfully deleted!");
-      fetchPosts();
-    }).catch((error) => {
-      lodingSean(false);
-      alertt("Error removing document: "+error,"red");
-    });
-  }
-  else {
-    alertt("deletPassord is not true")
-  }
+            let deletPassord = prompt("Enter deletPassord");
+            if (deletPassord === "fd-post") {
+                lodingSean(true);
+                const docRef = db.collection('posts').doc(postId);
+                docRef.delete()
+                    .then(() => {
+                        lodingSean(false);
+                        alert("Document successfully deleted!");
+                        fetchPosts();
+                    })
+                    .catch((error) => {
+                        lodingSean(false);
+                        alertt("Error removing document: " + error, "red");
+                    });
+            } else {
+                alertt("deletPassord is not true", "red");
+            }
 }
 
 function likee(postIndex) {
@@ -1065,8 +1098,7 @@ function getSearchMood(id) {
 let seachInput = document.getElementById("seach").value;
 
 function searcher(value) {
-  let postn = "";
-  let postne = "";
+  if(value.trim() !== ""){
   let found = false;
   for (let i = posts.length - 1; i >= 0; i--) {
     if (posts[i].name.includes(value) || posts[i].bodyPost.includes(value)) {
@@ -1109,12 +1141,14 @@ function searcher(value) {
         </div>
       `;
     } 
+  
   }
 
   if (found) {
     document.getElementById("posts").innerHTML = postn ;
   } else {
     document.getElementById("posts").innerHTML = '<p class="p-nan">لا توجد نتائج مطابقة للبحث</p>';
+  }
   }
 }
 function searchere(value) {

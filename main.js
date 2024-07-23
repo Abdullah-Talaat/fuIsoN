@@ -12,7 +12,6 @@ window.addEventListener("load", function() {
   }, 0);
 })
 let rightS = document.querySelector(".right-s")
-let narInp = document.querySelector('#narInp');
 let coment = document.getElementById("coment");
 let boxComent = document.querySelector(".box-coment");
 
@@ -807,22 +806,23 @@ let postIndex = -1;
 let posts = []; // تهيئة مصفوفة المنشورات
 
 let uploadbtn = document.querySelector('.uploadbtn');
-
+let narInp = document.querySelector('.narinpc');
 uploadbtn.onclick = async function() {
-  if (narInp && narInp.value.trim() !== "" && nameInput && nameInput.value.trim() !== "") {
+  if (narInp && narInp.value.trim() !== "" && nameInput && nameInput.trim() !== "") {
     let now = new Date();
     let date = now.getFullYear() + " / " + (now.getMonth() + 1) + " / " + now.getDate();
     console.log(date);
     let newPost = {
       bodyPost: narInp.value,
-      name: nameInput.value,
+      name: nameInput,
       likes: 0,
       date: date,
       coments: [],
     };
+    console.log (`${narInp.value}/${nameInput}`)
     lodingSean(true);
     try {
-      const docRef = await add(collection(db, "posts"), newPost);
+      const docRef = await db.collection('posts').add(newPost);
       console.log("Document written with ID: ", docRef.id);
       fetchPosts(); // تحديث المنشورات بعد إضافة منشور جديد
       clearInput();

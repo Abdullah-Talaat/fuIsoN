@@ -644,7 +644,7 @@ dateYearSin.value.trim() !== "" &&
   dateDaySin.value.trim() !== "" &&
 */
 // حساب العمر
-let age = dateYear - inputYear;
+let age = dateYear - dateYearSin.value;
 if (dateMonth < dateMontheSin.value || (dateMonth === dateMontheSin.value && dateDay < dateDaySin.value)) {
   age--;
 }

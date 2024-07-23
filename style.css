@@ -1630,7 +1630,6 @@ margin: 5px 0;
   z-index: 999;
   transition: 1.1s;
   display: none;
-  padding-top: 100px;
 }
 .loader2 {
   color: #ffffff;
@@ -1683,4 +1682,6 @@ margin: 5px 0;
   0% { transform: rotate(0deg) }
   100% { transform: rotate(360deg) }
 }
- 
+#posts{
+  margin-bottom: 300px;
+}

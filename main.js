@@ -969,9 +969,9 @@ function fetchPosts() {
 document.addEventListener('DOMContentLoaded', (event) => {
   if(db){
   fetchPosts();
+  showPages();
   }
 });
-
 function showPost(posts) {
   let postn = "";
   for (let i = 0; i < posts.length; i++){

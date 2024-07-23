@@ -771,7 +771,7 @@ function showPages() {
   }
   document.querySelector(".pages-sh").innerHTML = pagesN;
 }
-
+showPages()
 function loginWithPage(i) {
   nameLog.value = users[i].phone;
   passwordLog.value = users[i].password;
@@ -790,19 +790,17 @@ function logOut() {
 // تكوين Firebase
 
 const firebaseConfig = {
-      apiKey: "AIzaSyA7NlfYNyIY5qIN_8hbsRpG5se3mR1OlNM",
-      authDomain: "fusion-8ad3b.firebaseapp.com",
-      projectId: "fusion-8ad3b",
-      storageBucket: "fusion-8ad3b.appspot.com",
-      messagingSenderId: "280592838890",
-      appId: "1:280592838890:web:25a8a6ec2029cb10936793",
-      measurementId: "G-HZC7E4M7SW"
-};
-
+    apiKey: "AIzaSyC2oLuDwObmTkwi3wXRu3qTi9IfkLxMsjg",
+    authDomain: "fuison.firebaseapp.com",
+    projectId: "fuison",
+    storageBucket: "fuison.appspot.com",
+    messagingSenderId: "272997929295",
+    appId: "1:272997929295:web:bec659cdb8efa26192f53a",
+    measurementId: "G-6030NS4W6P"
+  };
     // تهيئة Firebase
-    firebase.initializeApp(firebaseConfig);
-    const analytics = firebase.analytics();
-    const db = firebase.firestore();
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
 
 // متغيرات (تأكد من أن هذه العناصر موجودة في ملف HTML الخاص بك)
 let postIndex = -1;

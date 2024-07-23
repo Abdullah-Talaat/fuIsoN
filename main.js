@@ -908,10 +908,10 @@ function showComent() {
 }
 
 function fetchPosts() {
-  loadingSean(true); // تأكد من أن هذا التعريف صحيح
+  lodingSean(true); // تأكد من أن هذا التعريف صحيح
   db.collection("posts").get()
     .then((querySnapshot) => {
-      loadingSean(false);
+      lodingSean(false);
       if (querySnapshot.empty) {
         console.log("No posts found");
       } else {
@@ -925,7 +925,7 @@ function fetchPosts() {
       showPost(posts); // تأكد من أن هذا التعريف صحيح
     })
     .catch((error) => {
-      loadingSean(false);
+      lodingSean(false);
       alertt("Error fetching documents: " + error, "red"); // تأكد من أن هذا التعريف صحيح
     });
 }document.addEventListener('DOMContentLoaded', (event) => {

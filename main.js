@@ -908,29 +908,27 @@ function showComent() {
 }
 
 function fetchPosts() {
-      lodingSean(true);
-      db.collection("posts").get().then((querySnapshot) => {
-        lodingSean(false);
-        let posts = [];
+  loadingSean(true); // تأكد من أن هذا التعريف صحيح
+  db.collection("posts").get()
+    .then((querySnapshot) => {
+      loadingSean(false);
+      if (querySnapshot.empty) {
+        console.log("No posts found");
+      } else {
+        querySnapshot.forEach((doc) => {
+          let postData = doc.data();
+          postData.id = doc.id;
+          posts.push(postData);
+        });
+      }
 
-        if (querySnapshot.empty) {
-          console.log("No posts found");
-        } else {
-          const docs = querySnapshot.docs;
-          for (let i = 0; i < docs.length; i++) {
-            let postData = docs[i].data();
-            postData.id = docs[i].id;
-            posts.push(postData);
-          }
-        }
-
-        showPost(posts);
-      }).catch((error) => {
-        lodingSean(false);
-        alertt("Error fetching documents: " + error, "red");
-      });
-    }
-document.addEventListener('DOMContentLoaded', (event) => {
+      showPost(posts); // تأكد من أن هذا التعريف صحيح
+    })
+    .catch((error) => {
+      loadingSean(false);
+      alertt("Error fetching documents: " + error, "red"); // تأكد من أن هذا التعريف صحيح
+    });
+}document.addEventListener('DOMContentLoaded', (event) => {
   if(db){
   fetchPosts();
   }

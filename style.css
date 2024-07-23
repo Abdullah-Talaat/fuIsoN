@@ -593,7 +593,7 @@ align-items: center;
   display: flex;
   justify-content: center;
   align-items: center;
-  background :#202020;
+  background :#000000;
   color: #fff;
   position: fixed;
   top:0;
@@ -1630,6 +1630,7 @@ margin: 5px 0;
   z-index: 999;
   transition: 1.1s;
   display: none;
+  padding: auto;
 }
 .loader {
   color: #ffffff;

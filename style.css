@@ -1683,3 +1683,17 @@ margin: 5px 0;
 #posts{
   margin-bottom: 300px;
 }
+.lbprofileImageSin {
+  background:rgba(207, 207, 207, 0.4);
+  border: #f1f1f1 solid 1px;
+  border-radius: 50%;
+  padding: 10px;
+  font-size: 100px;
+  transition:0.5s;
+  margin-top:10px;
+  margin-bottom: 20px;
+}
+.lbprofileImageSin:hover {
+  background:rgba(116, 126, 241, 0.5);
+  font-size: 80px;
+}

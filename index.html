@@ -22,8 +22,10 @@
     <!-- firebase -->
 
 
-  <script src="https://www.gstatic.com/firebasejs/9.21.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.21.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.21.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.21.0/firebase-storage-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.21.0/firebase-firestore-compat.js"></script>
+
  </head>
   
   <body class="body">
@@ -545,7 +547,9 @@
           
       </div>
       <div class="sin">
-      <input type="text" placeholder="name" id="sinUpName">
+        <label for="profileImageInput" class="material-symbols-outlined lbprofileImageSin">photo_camera</label>
+        <input onclick="getImgProfile()" type="file" id="profileImageInput" style="display: none;">
+        <input type="text" placeholder="name" id="sinUpName">
       <input type="email" placeholder="Email or Phone number" id="sinUpEmail">
         <div class="date-sin">
           <input placeholder="year" type="number" name="" id="dateYearSin">

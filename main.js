@@ -650,7 +650,41 @@ let sinUpName = document.getElementById("sinUpName");
 let dateYearSin = document.getElementById("dateYearSin");
 let dateMontheSin = document.getElementById("dateMontheSin");
 let dateDaySin = document.getElementById("dateDaySin");
+// تكوين Firebase
 
+const firebaseConfig = {
+    apiKey: "AIzaSyC2oLuDwObmTkwi3wXRu3qTi9IfkLxMsjg",
+    authDomain: "fuison.firebaseapp.com",
+    projectId: "fuison",
+    storageBucket: "fuison.appspot.com",
+    messagingSenderId: "272997929295",
+    appId: "1:272997929295:web:bec659cdb8efa26192f53a",
+    measurementId: "G-6030NS4W6P"
+  };
+    // تهيئة Firebase
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+const storage = firebase.storage();
+
+let imgProUrl = "pro1.jpeg";
+let fileImgPro = document.getElementById("profileImageInput");
+async function getImgProfile() {
+  let file = fileImgPro.files[0];
+  if (file) {
+    let storageRef = storage.ref().child(`profile/${file.name}`);
+    try {
+      await storageRef.put(file);
+      imgProUrl = await storageRef.getDownloadURL();
+      alert(imgProUrl)
+    }
+    catch (error) {
+      alertt(`error is:${error}`,"red")
+    }
+  }
+  else {
+    console.log("img is not defined")
+  }
+}
 let users = JSON.parse(localStorage.getItem("usersv")) || [];
 function sinUp() {
   if (
@@ -816,20 +850,6 @@ function logOut() {
   clearInluts();
   showPages()
 }
-// تكوين Firebase
-
-const firebaseConfig = {
-    apiKey: "AIzaSyC2oLuDwObmTkwi3wXRu3qTi9IfkLxMsjg",
-    authDomain: "fuison.firebaseapp.com",
-    projectId: "fuison",
-    storageBucket: "fuison.appspot.com",
-    messagingSenderId: "272997929295",
-    appId: "1:272997929295:web:bec659cdb8efa26192f53a",
-    measurementId: "G-6030NS4W6P"
-  };
-    // تهيئة Firebase
-firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
 
 // متغيرات (تأكد من أن هذه العناصر موجودة في ملف HTML الخاص بك)
 let postIndex = -1;

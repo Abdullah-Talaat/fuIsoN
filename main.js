@@ -1050,36 +1050,48 @@ function deletePost(postId) {
                 alertt("deletPassord is not true", "red");
             }
 }
+let postDLike = false;
+let postsLike = JSON.parse(localStorage.getItem("postlikesyou")) || [];
 
+// دالة لإزالة عنصر من مصفوفة
+function removeElement(array, element) {
+  return array.filter(e => e !== element);
+}
+
+// دالة الإعجاب
 function likee(postIndex) {
   let post = posts[postIndex];
-  let liked = post.liked || false; // إضافة خاصية لمعرفة ما إذا تم الإعجاب بالمنشور
+  postDLike = postsLike.includes(post.id);
 
-  if (liked) {
+  // تحديث حالة الإعجاب وعدد الإعجابات
+  if (postDLike) {
     post.likes--; // تقليل عدد الإعجابات
-    post.liked = false; // تحديث حالة الإعجاب
+    postsLike = removeElement(postsLike, post.id);
   } else {
     post.likes++; // زيادة عدد الإعجابات
-    post.liked = true; // تحديث حالة الإعجاب
+    postsLike.push(post.id);
   }
-lodingSean(true);
+
+  // تحديث Local Storage
+  localStorage.setItem("postlikesyou", JSON.stringify(postsLike));
+  lodingSean(true);
+
   // تحديث الوثيقة في Firebase
   const docRef = db.collection('posts').doc(post.id);
   docRef.update({
-    likes: post.likes,
-    liked: post.liked
+    likes: post.likes
   })
     .then(() => {
       lodingSean(false);
       console.log("Document successfully updated!");
-      showPost(posts); // تحديث العرض بعد التعديل
+      // تحديث العرض بعد التعديل
+      showPost(posts);
     })
     .catch((error) => {
       lodingSean(false);
-      alertt("Error updating document: " + error,"red");
+      alertt("Error updating document: " + error, "red");
     });
 }
-
 let searchMood = "opject";
 let inputSs = document.getElementById("inputSs");
 function getSearchMood(id) {

@@ -492,7 +492,7 @@ background: #2977F6;
 `;
 seach.style = `
 outline-color:#2977F6 ;
-color: #888;
+color: #000;
 `;
 searchIcon.style = `
 border: 1px #888 solid;
@@ -800,7 +800,7 @@ function showPages() {
   }
   document.querySelector(".pages-sh").innerHTML = pagesN;
 }
-showPages()
+
 function loginWithPage(i) {
   nameLog.value = users[i].phone;
   passwordLog.value = users[i].password;
@@ -814,7 +814,7 @@ function logOut() {
   document.querySelector(".navbar").style= `display:none `;
   
   clearInluts();
-   showPages();
+  showPages()
 }
 // تكوين Firebase
 
@@ -837,7 +837,7 @@ let posts = []; // تهيئة مصفوفة المنشورات
 
 let uploadbtn = document.querySelector('.uploadbtn');
 let narInp = document.querySelector('.narinpc');
-uploadbtn.onclick = async function() {
+async function upload() {
   if (narInp && narInp.value.trim() !== "" && nameInput && nameInput.trim() !== "") {
     let now = new Date();
     let date = now.getFullYear() + " / " + (now.getMonth() + 1) + " / " + now.getDate();
@@ -1159,10 +1159,9 @@ function searcher(value) {
       document.getElementById("posts").innerHTML = postn;
     } else {
       document.getElementById("posts").innerHTML = '<p class="p-nan">لا توجد نتائج مطابقة للبحث</p>'
-      
-      
     }
-  } 
+  }
+  
 }
 function searchere(value) {
   let searchPost = "";
@@ -1321,7 +1320,6 @@ function searchere(value) {
 function openSearch() {
   document.querySelector(".search-icon").style = `display:none;`;
   document.getElementById("seach").style = `display:flex;`
-  
 }
 
 

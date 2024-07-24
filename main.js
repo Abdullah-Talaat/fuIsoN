@@ -226,7 +226,7 @@ num8.style = `
 
 function disNav(e1,e2,e3,e4) {
   e1.style = `
-    margin-top :76.6px;
+    padding-top :76.6px;
   `;
   e2.style = `
     display :none;
@@ -892,6 +892,7 @@ sendComentBtn.onclick = function() {
           lodingSean(false);
           console.log("Comment added");
           showComent();
+          fetchPosts();
           sendComent.value = "";
         })
         .catch((error) => {
@@ -1085,14 +1086,14 @@ function likee(postIndex) {
       lodingSean(false);
       console.log("Document successfully updated!");
       // تحديث العرض بعد التعديل
-      showPost(posts);
+      fetchPosts();
     })
     .catch((error) => {
       lodingSean(false);
       alertt("Error updating document: " + error, "red");
     });
 }
-let searchMood = "opject";
+let searchMood = "all";
 let inputSs = document.getElementById("inputSs");
 function getSearchMood(id) {
   if (id == "byOpject") {
@@ -1105,71 +1106,124 @@ function getSearchMood(id) {
   searchere(inputSs.value);
 }
 
-// البحث في الهيدر
-let seachInput = document.getElementById("seach").value;
+
 
 function searcher(value) {
-  if(value.trim() !== ""){
-  let found = false;
-  for (let i = posts.length - 1; i >= 0; i--) {
-    if (posts[i].name.includes(value) || posts[i].bodyPost.includes(value)) {
-      found = true;
-      postn =+ `
-        <div class="nasher post">
-          <div class="head-post">
-            <div class="date-info">
-              <p class="date">${posts[i].date}</p>
-              <p class="material-symbols-outlined date-icon">calendar_month</p>
-            </div>
-            <div class="pro-post">
-              <p>${posts[i].name}</p>
-              <img class="pro-c" src="pro1.jpeg" alt="">
-            </div>
-          </div>
-          <div class="post-info">
-            <p>${posts[i].bodyPost}</p>
-          </div>
-          <div class="chosesec">
-            <div class="upload like choke" onclick="deletePost('${posts[i].id}')">
-              <button id="deleteee" class="likee deleteee chokee">
-                <p>delete</p>
-                <span id="spanS" class="material-symbols-outlined">delete</span>
-              </button>
-            </div>
-            <div class="upload like choke" onclick="com(${i})">
-              <button id="like" class="likee lookos chokee">
-                <p id="lnn">${posts[i].coments ? posts[i].coments.length : 0}</p>
-                <span id="spanSs" class="material-symbols-outlined spanS">comment</span>
-              </button>
-            </div>
-            <div class="upload like choke" onclick="likee(${i})">
-              <button id="like" class="likee lookos chokee">
-                <p id="lnn">${posts[i].likes}</p>
-                <span id="spanSs" class="material-symbols-outlined spanS">thumb_up</span>
-              </button>
-            </div>
-          </div>
-        </div>
-      `;
-    } 
-  
-  }
+  if (value.trim() !== "") {
+    let postn = ''; // تأكد من تهيئة متغير postn كسلسلة فارغة
+    let found = false;
 
-  if (found) {
-    document.getElementById("posts").innerHTML = postn ;
-  } else {
-    document.getElementById("posts").innerHTML = '<p class="p-nan">لا توجد نتائج مطابقة للبحث</p>';
-  }
-  }
+    for (let i = 0; i < posts.length; i++) {
+      if (posts[i].name.trim().toLowerCase().includes(value.trim().toLowerCase()) || posts[i].bodyPost.trim().toLowerCase().includes(value.trim().toLowerCase())) {
+        found = true;
+        postn += `
+          <div class="nasher post">
+            <div class="head-post">
+              <div class="date-info">
+                <p class="date">${posts[i].date}</p>
+                <p class="material-symbols-outlined date-icon">calendar_month</p>
+              </div>
+              <div class="pro-post">
+                <p>${posts[i].name}</p>
+                <img class="pro-c" src="pro1.jpeg" alt="">
+              </div>
+            </div>
+            <div class="post-info">
+              <p>${posts[i].bodyPost}</p>
+            </div>
+            <div class="chosesec">
+              <div class="upload like choke" onclick="deletePost('${posts[i].id}')">
+                <button id="deleteee" class="likee deleteee chokee">
+                  <p>delete</p>
+                  <span id="spanS" class="material-symbols-outlined">delete</span>
+                </button>
+              </div>
+              <div class="upload like choke" onclick="com(${i})">
+                <button id="like" class="likee lookos chokee">
+                  <p id="lnn">${posts[i].coments ? posts[i].coments.length : 0}</p>
+                  <span id="spanSs" class="material-symbols-outlined spanS">comment</span>
+                </button>
+              </div>
+              <div class="upload like choke" onclick="likee(${i})">
+                <button id="like" class="likee lookos chokee">
+                  <p id="lnn">${posts[i].likes}</p>
+                  <span id="spanSs" class="material-symbols-outlined spanS">thumb_up</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+    }
+
+    if (found) {
+      document.getElementById("posts").innerHTML = postn;
+    } else {
+      document.getElementById("posts").innerHTML = '<p class="p-nan">لا توجد نتائج مطابقة للبحث</p>'
+      
+      
+    }
+  } 
 }
 function searchere(value) {
   let searchPost = "";
   let found = false;
-
-  if (searchMood === "name") {
-    for (let i = posts.length - 1; i >= 0; i--) {
-      if (posts[i] && posts[i].name && posts[i].name.toLocaleLowerCase().includes(value.trim().toLocaleLowerCase()) && value.trim().toLocaleLowerCase() !== "") {
+  let foundOpject = false;
+  let foundName = false;
+  if(value.trim().toLocaleLowerCase() !== ""){
+  if(searchMood === "all"){
+    for (let i = 0; i < posts.length; i++) {
+      if (posts[i].name.trim().toLowerCase().includes(value.trim().toLowerCase()) || posts[i].bodyPost.trim().toLowerCase().includes(value.trim().toLowerCase())) {
         found = true;
+        searchPost += `
+          <div class="nasher post">
+            <div class="head-post">
+              <div class="date-info">
+                <p class="date">${posts[i].date}</p>
+                <p class="material-symbols-outlined date-icon">calendar_month</p>
+              </div>
+              <div class="pro-post">
+                <p>${posts[i].name}</p>
+                <img class="pro-c" src="pro1.jpeg" alt="">
+              </div>
+            </div>
+            <div class="post-info">
+              <p>${posts[i].bodyPost}</p>
+            </div>
+            <div class="chosesec">
+              <div class="upload like choke" onclick="deletePost('${posts[i].id}')">
+                <button id="deleteee" class="likee deleteee chokee">
+                  <p>delete</p>
+                  <span id="spanS" class="material-symbols-outlined">delete</span>
+                </button>
+              </div>
+              <div class="upload like choke" onclick="com(${i})">
+                <button id="like" class="likee lookos chokee">
+                  <p id="lnn">${posts[i].coments ? posts[i].coments.length : 0}</p>
+                  <span id="spanSs" class="material-symbols-outlined spanS">comment</span>
+                </button>
+              </div>
+              <div class="upload like choke" onclick="likee(${i})">
+                <button id="like" class="likee lookos chokee">
+                  <p id="lnn">${posts[i].likes}</p>
+                  <span id="spanSs" class="material-symbols-outlined spanS">thumb_up</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+    }
+    if (found) {
+      document.getElementById("postsSsearch").innerHTML = searchPost;
+    } else {
+      document.getElementById("postsSsearch").innerHTML = '<p class="p-nan">لا توجد نتائج مطابقة للبحث</p>';
+    }
+  }
+  else if (searchMood === "name") {
+    for (let i = 0; i < post.length; i++) {
+      if (posts[i] && posts[i].name.toLocaleLowerCase().includes(value.trim().toLocaleLowerCase()) ) {
+        foundName = true;
         searchPost += `
         <div class="nasher post">
           <div class="head-post">
@@ -1208,11 +1262,18 @@ function searchere(value) {
         </div>`;
       }
     }
+      if (foundName) {
+        document.getElementById("postsSsearch").innerHTML = searchPost;
+      }
+      else {
+        document.getElementById("postsSsearch").innerHTML = '<p class="p-nan">لا توجد نتائج مطابقة للبحث</p>';
+      }
   } else {
     for (let i = posts.length - 1; i >= 0; i--) {
-      if (posts[i] && posts[i].bodyPost && posts[i].bodyPost.toLocaleLowerCase().includes(value.trim().toLocaleLowerCase()) && value.trim().toLocaleLowerCase() !== "") {
-        found = true;
-        searchPost += `        <div class="nasher post">
+      if (posts[i] && posts[i].bodyPost.toLocaleLowerCase().includes(value.trim().toLocaleLowerCase())) {
+        foundOpject = true;
+        searchPost += `       
+        <div class="nasher post">
           <div class="head-post">
             <div class="date-info">
               <p class="date">${posts[i].date}</p>
@@ -1249,11 +1310,15 @@ function searchere(value) {
         </div>`;
       }
     }
+      if (foundOpject) {
+        document.getElementById("postsSsearch").innerHTML = searchPost;
+      }
+      else {
+        document.getElementById("postsSsearch").innerHTML = '<p class="p-nan">لا توجد نتائج مطابقة للبحث</p>';
+      }
   }
-
-  if (found) {
-    document.getElementById("postsSsearch").innerHTML = searchPost;
-  }}
+  }
+}
 function openSearch() {
   document.querySelector(".search-icon").style = `display:none;`;
   document.getElementById("seach").style = `display:flex;`

@@ -595,7 +595,6 @@ window.onload = function() {
     pMoodWeb.innerHTML = "Dark Mood";
     pi.innerHTML = "dark_mode";
   }
-  fetchPosts();
 };
 
 n11();

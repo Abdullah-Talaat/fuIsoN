@@ -212,15 +212,12 @@ transition: 1s;
   width: 760px;
   height: 100%;
   background: #f0f0f0;
-  overflow :hidden;
-  padding-bottom:40px ;
 }
 
 .right-s  {
   width: 256px;
   height: 100%;
   background: #f9f9f9;
-  
 }
 .p{
   padding-top: 0px;

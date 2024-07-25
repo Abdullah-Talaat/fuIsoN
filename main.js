@@ -672,12 +672,15 @@ async function getImgProfile() {
   let file = fileImgPro.files[0];
   if (file) {
     let storageRef = storage.ref().child(`profile/${file.name}`);
+    lodingSean(true)
     try {
       await storageRef.put(file);
       imgProUrl = await storageRef.getDownloadURL();
-      alert(imgProUrl)
+      lodingSean(false);
+      alertt(imgProUrl,"green")
     }
     catch (error) {
+      lodingSean(false);
       alertt(`error is:${error}`,"red")
     }
   }
@@ -685,8 +688,10 @@ async function getImgProfile() {
     console.log("img is not defined")
   }
 }
-let users = JSON.parse(localStorage.getItem("usersv")) || [];
-function sinUp() {
+let users = JSON.parse(localStorage.getItem("usersvf")) || [];
+let usersf = [];
+let uId;
+async function sinUp() {
   if (
     sinUpName.value.trim() !== "" &&
     sinUpEmail.value.trim() !== "" &&
@@ -714,30 +719,60 @@ if (dateMonth < dateMontheSin.value || (dateMonth === dateMontheSin.value && dat
 
 // التحقق من العمر
 if (age >= 10 && age <= 500 && dateMontheSin.value <= 12 && dateDaySin.value <= 31) {
+     lodingSean(true);
       let foundUser = false;
-      for (var i = 0; i < users.length; i++) {
-        if (sinUpName.value.trim() === users[i].name  || sinUpEmail.value.trim() === users[i].phone) {
+        usersf = [];
+        try {
+          let querySnapshot = await db.collection('users').get();
+          if (querySnapshot.empty) {
+            console.log("No users found");
+          } else {
+            querySnapshot.forEach((doc) => {
+              let userDate = doc.data();
+              usersf.push(userDate);
+            });
+          }
+        } catch (error) {
+          lodingSean(false);
+          alertt(`error is: ${error}`,"red");
+        }      
+      for (let i = 0; i < usersf.length; i++) {
+        if (sinUpName.value.trim() === usersf[i].name  
+        || usersf.value.trim() === users[i].phone) {
+          lodingSean(false);
           foundUser = true;
           alertt("Sorry, this user already exists ","red")
         }
       }
       if (foundUser == false) {
-              let user = {
-                name: sinUpName.value.trim(),
-                phone: sinUpEmail.value.trim(),
-                password: passwordSin.value.trim(),
+       let user = {
+        name: sinUpName.value.trim(),
+        phone: sinUpEmail.value.trim(),
+        password: passwordSin.value.trim(),
+        proImg: imgProUrl,
+        liked: []
+       }
+      /*const docRef = await db.collection('posts').add(newPost);*/
+      try {
+        lodingSean(false);
+        const userRef = await db.collection('users').add(user);
+        nameInput = usersf.name;
+        imgProUrl = usersf.proImg;
+        uId = usersf.id;
+        clearInluts();
+        showApp();
+        alertt(`hello ${userRef.name}`,"green");
       }
+      catch (error){
+        lodingSean(false);
+        alertt(`error is: ${error}`,"red");
+      }
+      
       users.push(user);
-
-      console.log(users)
-      localStorage.setItem("usersv", JSON.stringify(users));
-      nameInput = sinUpName.value.trim();
-      clearInluts();
-      showApp();
-      alertt("An account has been created","#31FF4B")
+      localStorage.setItem("usersvf", JSON.stringify(users));
       }
     } else {
-      alertt("sorry "+sinUpName.value.trim() +". You can't enter to fusion. Because you are young. ","red")
+      alertt("sorry " + sinUpName.value.trim() + ". You can't enter to fusion. Because you are young. ","red")
     }
   } else {
     alertt("املا جميع الحقول","red");  }
@@ -757,29 +792,47 @@ function showApp() {
 }
 let nameLog = document.getElementById("nameLog");
 
-function login() {
-  if (passwordLog.value.trim().toLocaleLowerCase() !== "" && nameLog.value.trim().toLocaleLowerCase() !== "") {
+async function login() {
+  if (passwordLog.value.trim().toLocaleLowerCase() !== "" 
+  && nameLog.value.trim().toLocaleLowerCase() !== "") {
+    usersf = [];
+    lodingSean(true);
+    try {
+      let querySnapshot = await db.collection('users').get();
+      if (querySnapshot.empty) {
+        console.log("No users found");
+      } else {
+        querySnapshot.forEach((doc) => {
+          let userDate = doc.data();
+          usersf.push(userDate);
+        });
+        }
+} catch (error) {
+  lodingSean(false);
+  alertt(`error is: ${error}`, "red");
+}
    let userLogin = false;
-   for (var i = 0; i < users.length; i++) {
-     if (passwordLog.value.trim().toLocaleLowerCase() === users[i].password.toLocaleLowerCase()  && nameLog.value.trim().toLocaleLowerCase() === users[i].phone.toLocaleLowerCase()) {
+   for (let i = 0; i < usersf.length; i++) {
+     if (passwordLog.value.trim().toLocaleLowerCase() === usersf[i].password.toLocaleLowerCase() 
+     && nameLog.value.trim().toLocaleLowerCase() === usersf[i].phone.toLocaleLowerCase()) {
        userLogin = true;
-       nameInput = users[i].name;
+       nameInput = usersf[i].name;
+       imgProUrl = usersf[i].proImg;
+       uId = usersf[i].id;
      }
-     else if(passwordLog.value.trim().toLocaleLowerCase() !== users[i].password.toLocaleLowerCase()  && nameLog.value.trim().toLocaleLowerCase() 
-     !== users[i].phone.toLocaleLowerCase()){
+     else if(passwordLog.value.trim().toLocaleLowerCase() !== usersf[i].password.toLocaleLowerCase()  
+     && nameLog.value.trim().toLocaleLowerCase() !== usersf[i].phone.toLocaleLowerCase()){
        alertt("The password and (email or phone number) are incorrect","red")
      }
-     else if (nameLog.value.trim().toLocaleLowerCase() !==
-    users[i].phone.toLocaleLowerCase()) {
+     else if (nameLog.value.trim().toLocaleLowerCase() !== usersf[i].phone.toLocaleLowerCase()) {
        alertt("Invalid email or phone number","red")
      }
      else if(passwordLog.value.trim().toLocaleLowerCase() !==
-    users[i].phone.toLocaleLowerCase()){
+    usersf[i].phone.toLocaleLowerCase()){
       alertt("Password error","red")
      }
    }
    if (userLogin == true) {
-     
      showApp()
    }
  }
@@ -868,6 +921,7 @@ async function upload() {
       likes: 0,
       date: date,
       coments: [],
+      proUrl: imgProUrl
     };
     console.log (`${narInp.value}/${nameInput}`)
     lodingSean(true);
@@ -897,6 +951,7 @@ sendComentBtn.onclick = function() {
       bodyComent: sendComent.value,
       nameComent: nameInput,
       datecoment: dateComentNow,
+      proUrl: imgProUrl
     };
 
     if (postIndex >= 0 && posts[postIndex]) {
@@ -943,7 +998,7 @@ function showComent() {
         let comentHTML = `
           <div class="coment1">
             <div class="profile-coment">
-              <img src="pro1.jpeg" alt="">
+              <img src="${storedComents[i].proUrl}" alt="">
               <p class="pro-name-com">${storedComents[i].nameComent}</p>
               <p class="comet-date-info">${storedComents[i].datecoment}</p>
             </div>
@@ -1004,7 +1059,7 @@ function showPost(posts) {
           </div>
           <div class="pro-post">
             <p>${posts[i].name}</p>
-            <img class="pro-c" src="pro1.jpeg" alt="">
+            <img class="pro-c" src="${posts[i].proImg}" alt="">
           </div>
         </div>
         <div class="post-info">

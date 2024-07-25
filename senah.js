@@ -1,15 +1,13 @@
-
-let senahMood = false;
 let senah = document.querySelector('.senah')
 function senahFunction() {
   if (!senahMood) {
     senah.style.display = "none";
   }
   else{
-  senah.style.display = "flex";
+    senah.style.display = "flex";
   }
 }
  
 
-senahMood = false;
+senahMood = true;
 senahFunction();

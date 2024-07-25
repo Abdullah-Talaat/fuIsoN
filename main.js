@@ -669,10 +669,10 @@ const storage = firebase.storage();
 let imgProUrl = "pro1.jpeg";
 let fileImgPro = document.getElementById("profileImageInput");
 async function getImgProfile() {
+  lodingSean(true);
   let file = fileImgPro.files[0];
   if (file) {
     let storageRef = storage.ref().child(`profile/${file.name}`);
-    lodingSean(true)
     try {
       await storageRef.put(file);
       imgProUrl = await storageRef.getDownloadURL();
@@ -738,7 +738,7 @@ if (age >= 10 && age <= 500 && dateMontheSin.value <= 12 && dateDaySin.value <= 
         }      
       for (let i = 0; i < usersf.length; i++) {
         if (sinUpName.value.trim() === usersf[i].name  
-        || usersf.value.trim() === users[i].phone) {
+        || sinUpEmail.value.trim() === usersf[i].phone) {
           lodingSean(false);
           foundUser = true;
           alertt("Sorry, this user already exists ","red")

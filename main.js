@@ -609,7 +609,8 @@ function lodingSean(show) {
 let checkPassword = document.getElementById("checkPassword");
 let checkPasswordLog = document.getElementById("checkPasswordLog");
 let passwordSin = document.getElementById("passwordSin");
-let passwordLog = document.getElementById("passwordLog");
+let nameLog = document.querySelector("#nameLog");
+let passwordLog = document.querySelector("#passwordLog");
 
 
 checkPasswordLog.onclick = function() {
@@ -720,30 +721,35 @@ if (dateMonth < dateMontheSin.value || (dateMonth === dateMontheSin.value && dat
 // التحقق من العمر
 if (age >= 10 && age <= 500 && dateMontheSin.value <= 12 && dateDaySin.value <= 31) {
      lodingSean(true);
-      let foundUser = false;
-        usersf = [];
-        try {
-          let querySnapshot = await db.collection('users').get();
-          if (querySnapshot.empty) {
-            console.log("No users found");
-          } else {
-            querySnapshot.forEach((doc) => {
-              let userDate = doc.data();
-              usersf.push(userDate);
-            });
-          }
-        } catch (error) {
-          lodingSean(false);
-          alertt(`error is: ${error}`,"red");
-        }      
-      for (let i = 0; i < usersf.length; i++) {
-        if (sinUpName.value.trim() === usersf[i].name  
-        || sinUpEmail.value.trim() === usersf[i].phone) {
-          lodingSean(false);
-          foundUser = true;
-          alertt("Sorry, this user already exists ","red")
-        }
-      }
+let foundUser = false;
+usersf = [];
+
+try {
+  let querySnapshot = await db.collection('users').get();
+  if (querySnapshot.empty) {
+    console.log("No users found");
+  } else {
+    querySnapshot.forEach((doc) => {
+      let userDate = doc.data();
+      usersf.push(userDate);
+    });
+  }
+} catch (error) {
+  lodingSean(false);
+  alertt(`error is: ${error}`, "red");
+  return; // إنهاء العملية في حالة الخطأ
+}
+
+// تحقق من وجود المستخدم
+for (let i = 0; i < usersf.length; i++) {
+  if (sinUpName.value.trim() === usersf[i].name || sinUpEmail.value.trim() === usersf[i].phone) {
+    lodingSean(false);
+    foundUser = true;
+    alertt("Sorry, this user already exists", "red");
+    break; // الخروج من الحلقة بعد العثور على المستخدم
+  }
+}
+
       if (foundUser == false) {
        let user = {
         name: sinUpName.value.trim(),
@@ -751,22 +757,36 @@ if (age >= 10 && age <= 500 && dateMontheSin.value <= 12 && dateDaySin.value <= 
         password: passwordSin.value.trim(),
         proImg: imgProUrl,
         liked: []
-       }
-      /*const docRef = await db.collection('posts').add(newPost);*/
-      try {
-        lodingSean(false);
-        const userRef = await db.collection('users').add(user);
-        nameInput = usersf.name;
-        imgProUrl = usersf.proImg;
-        uId = usersf.id;
-        clearInluts();
-        showApp();
-        alertt(`hello ${userRef.name}`,"green");
-      }
-      catch (error){
-        lodingSean(false);
-        alertt(`error is: ${error}`,"red");
-      }
+      };
+
+lodingSean(true);
+
+try {
+  // إضافة المستخدم إلى مجموعة 'users'
+  const userRef = await db.collection('users').add(user);
+
+  // استرجاع المستند باستخدام المرجع
+  const userDoc = await userRef.get();
+  const userData = userDoc.data();
+
+  // التأكد من وجود البيانات قبل الوصول إليها
+  if (userData) {
+    nameInput = userData.name;
+    if(userData.proImg != "") imgProUrl = userData.proImg;
+    else imgProUrl = "pro1.jpeg";
+    uId = userRef.id;
+    clearInluts();
+    showApp();
+    alertt(`Hello ${userData.name}`, "green");
+  } else {
+    console.error("No user data found");
+  }
+
+  lodingSean(false);
+} catch (error) {
+  lodingSean(false);
+  alertt(`Error is: ${error}`, "red");
+}
       
       users.push(user);
       localStorage.setItem("usersvf", JSON.stringify(users));
@@ -790,59 +810,54 @@ function showApp() {
   document.querySelector(".navbar").style= `display:flex `;
   colseUserPages();
 }
-let nameLog = document.getElementById("nameLog");
-
 async function login() {
-  if (passwordLog.value.trim().toLocaleLowerCase() !== "" 
-  && nameLog.value.trim().toLocaleLowerCase() !== "") {
-    usersf = [];
-    lodingSean(true);
-    try {
-      let querySnapshot = await db.collection('users').get();
-      if (querySnapshot.empty) {
-        console.log("No users found");
-      } else {
-        querySnapshot.forEach((doc) => {
-          let userDate = doc.data();
-          usersf.push(userDate);
-        });
-        }
-} catch (error) {
+if (passwordLog.value.trim() !== "" && nameLog.value.trim() !== "") {
+  usersf = [];
+  lodingSean(true);
+
+  try {
+    let querySnapshot = await db.collection('users').get();
+    if (querySnapshot.empty) {
+      console.log("No users found");
+    } else {
+      querySnapshot.forEach((doc) => {
+        let userDate = doc.data();
+        usersf.push(userDate);
+      });
+    }
+  } catch (error) {
+    lodingSean(false);
+    alertt(`error is: ${error}`, "red");
+    return; // إنهاء العملية في حالة الخطأ
+  }
+
+  let userLogin = false;
+
+  for (let i = 0; i < usersf.length; i++) {
+    let user = usersf[i];
+    if (user.password && user.phone) {
+      if (passwordLog.value.trim().toLocaleLowerCase() === user.password.toLocaleLowerCase() && nameLog.value.trim().toLocaleLowerCase() === user.phone.toLocaleLowerCase()) {
+        userLogin = true;
+        nameInput = user.name;
+        imgProUrl = user.proImg;
+        uId = user.id;
+        break; // الخروج من الحلقة بعد العثور على المستخدم
+      }
+    }
+  }
+
   lodingSean(false);
-  alertt(`error is: ${error}`, "red");
-}
-   let userLogin = false;
-   for (let i = 0; i < usersf.length; i++) {
-     if (passwordLog.value.trim().toLocaleLowerCase() === usersf[i].password.toLocaleLowerCase() 
-     && nameLog.value.trim().toLocaleLowerCase() === usersf[i].phone.toLocaleLowerCase()) {
-       userLogin = true;
-       nameInput = usersf[i].name;
-       imgProUrl = usersf[i].proImg;
-       uId = usersf[i].id;
-     }
-     else if(passwordLog.value.trim().toLocaleLowerCase() !== usersf[i].password.toLocaleLowerCase()  
-     && nameLog.value.trim().toLocaleLowerCase() !== usersf[i].phone.toLocaleLowerCase()){
-       alertt("The password and (email or phone number) are incorrect","red")
-     }
-     else if (nameLog.value.trim().toLocaleLowerCase() !== usersf[i].phone.toLocaleLowerCase()) {
-       alertt("Invalid email or phone number","red")
-     }
-     else if(passwordLog.value.trim().toLocaleLowerCase() !==
-    usersf[i].phone.toLocaleLowerCase()){
-      alertt("Password error","red")
-     }
-   }
-   if (userLogin == true) {
-     showApp()
-   }
- }
-  else if(passwordLog.value.trim().toLocaleLowerCase() === "" && nameLog.value.trim().toLocaleLowerCase() === "") {
-   alertt("Fill in the field (email or phone number) and password","red");
- }
- else if (nameLog.value.trim().toLocaleLowerCase() === "") {
+
+  if (userLogin) {
+    showApp();
+  } else {
+    alertt("The password and (email or phone number) are incorrect", "red");
+  }
+} else if (passwordLog.value.trim() === "" && nameLog.value.trim() === "") {
+  alertt("Fill in the field (email or phone number) and password", "red");
+} else if (nameLog.value.trim() === "") {
   alertt("Fill in the field (email or phone number)", "red");
-}
-else if (passwordLog.value.trim().toLocaleLowerCase() === "") {
+} else if (passwordLog.value.trim() === "") {
   alertt("Fill in the field password", "red");
 }
 }
@@ -871,7 +886,7 @@ function colseUserPages() {
 colsePages.onclick = function (){
   colseUserPages();
 }
-
+let pagesSh = document.querySelector(".pages-sh").innerHTML ;
 function showPages() {
   let pagesN = "";
   for (let u = 0; u < users.length; u++) {
@@ -885,7 +900,7 @@ function showPages() {
                  </div>
                </div>`;
   }
-  document.querySelector(".pages-sh").innerHTML = pagesN;
+  pagesSh = pagesN;
 }
 
 function loginWithPage(i) {

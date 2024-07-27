@@ -9,5 +9,5 @@ function senahFunction() {
 }
  
 
-senahMood = true;
+senahMood = false;
 senahFunction();
